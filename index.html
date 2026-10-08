@@ -1,50 +1,46 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hospital Shift: Neuro Ward Master Edition</title>
+<title>201 NSS Medical Ward & Clinical Simulator</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#10202A;--ink:#E3EEF2;--card:#19303C;--line:#2B4553;--teal:#4DBFB8;--bad:#F07A74;--ok:#6CCB92;--mute:#93AEBA;--gold:#FFD700;box-sizing:border-box}
+:root{--bg:#0A1319;--ink:#E3EEF2;--card:#13222C;--line:#223846;--teal:#3BBEA8;--bad:#F06A68;--ok:#52C785;--mute:#82A0AD;--gold:#FFC837;box-sizing:border-box}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Bricolage Grotesque',system-ui,sans-serif}
-#app{max-width:680px;margin:0 auto;padding:16px;min-height:100vh}
+#app{max-width:720px;margin:0 auto;padding:16px;min-height:100vh}
 h1{font-size:28px;font-weight:800;line-height:1.1;margin:8px 0 4px;color:var(--teal)}
-h2{font-size:20px;margin:10px 0 6px}
+h2{font-size:20px;margin:12px 0 6px}
 p{margin:6px 0}.mute{color:var(--mute);font-size:14px}
-.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;background:rgba(0,0,0,0.2);padding:10px 14px;border-radius:10px;border:1px solid var(--line)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:10px;border:1px solid var(--line)}
 .rep{font-weight:800;color:var(--gold);display:flex;align-items:center;gap:6px}
 button{font:inherit;color:inherit;cursor:pointer;transition:transform 0.1s, background 0.2s}
 button:active{transform:scale(0.98)}
 .btn{background:var(--teal);color:#081318;border:0;border-radius:10px;padding:12px 16px;font-weight:700;width:100%;margin-top:10px}
 .btn:disabled{opacity:.3;cursor:default}.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0;position:relative;overflow:hidden}
+.ward-section{border-left:4px solid var(--teal);padding-left:10px;margin:18px 0 8px;font-size:18px;font-weight:800;color:var(--teal)}
 .patient-header{display:flex;gap:12px;align-items:center}
-.avatar-box{width:60px;height:60px;border-radius:50%;background:#0b151c;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.avatar-box svg{width:40px;height:40px;fill:var(--teal)}
+.avatar-box{width:54px;height:54px;border-radius:50%;background:#091016;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.avatar-box svg{width:32px;height:32px;fill:var(--teal)}
 .case-title{flex-grow:1}
-.badge{font-size:11px;padding:3px 8px;border-radius:12px;font-weight:800;text-transform:uppercase;display:inline-block;margin-top:4px}
+.badge{font-size:10px;padding:3px 7px;border-radius:10px;font-weight:800;text-transform:uppercase;display:inline-block;margin-top:4px}
 .badge-crit{background:var(--bad);color:#fff}
 .badge-stable{background:var(--ok);color:#081318}
-.badge-chronic{background:#d97706;color:#fff}
+.badge-gen{background:var(--gold);color:#081318}
 .ord{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .ord button{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:left;font-size:13px;font-weight:600}
-.ord button.u{border-color:var(--teal);background:rgba(77,191,184,0.1);color:var(--teal)}
+.ord button.u{border-color:var(--teal);background:rgba(59,190,168,0.12);color:var(--teal)}
 .find{border-left:4px solid var(--teal);background:rgba(255,255,255,0.03);padding:8px 12px;margin:8px 0;border-radius:0 10px 10px 0}
 .find b{display:block;font-size:12px;color:var(--teal);text-transform:uppercase}
 .opt{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin:7px 0}
-.opt.s{border:2px solid var(--teal);background:rgba(77,191,184,0.15)}.opt.ok{border:2px solid var(--ok);background:rgba(108,203,146,0.15)}.opt.no{border:2px solid var(--bad);background:rgba(240,122,116,0.15)}
-.timer-bar{width:100%;height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:10px}
-.timer-fill{height:100%;background:var(--teal);width:100%;transition:width 1s linear}
-.brain-map{width:100%;max-width:360px;margin:12px auto;display:block;background:#0b151c;border-radius:12px;border:1px solid var(--line);padding:8px}
-.brain-region{cursor:pointer;fill:#2b4553;stroke:var(--line);stroke-width:1.5;transition:all 0.2s}
-.brain-region:hover{fill:var(--teal);opacity:0.8}
-.brain-region.selected{fill:var(--teal);stroke:#fff;stroke-width:2.5}
-.perk-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,0.1);border:1px solid var(--gold);color:var(--gold);padding:4px 10px;border-radius:20px;font-size:12px;margin:4px 2px}
+.opt.s{border:2px solid var(--teal);background:rgba(59,190,168,0.15)}.opt.ok{border:2px solid var(--ok);background:rgba(82,199,133,0.15)}.opt.no{border:2px solid var(--bad);background:rgba(240,106,104,0.15)}
+.perk-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,200,55,0.1);border:1px solid var(--gold);color:var(--gold);padding:4px 10px;border-radius:20px;font-size:12px;margin:4px 2px}
 details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:7px 0}
 summary{font-weight:600;cursor:pointer}
+pre{background:#080e12;padding:10px;border-radius:8px;overflow-x:auto;font-size:12px;color:var(--teal)}
 </style></head><body><div id="app"></div>
 <script>
-// --- AUDIO SYNTHESIZER FX ---
+// --- AUDIO SYNTHESIZER ---
 const AudioEngine = {
     ctx: null,
     init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
@@ -61,251 +57,202 @@ const AudioEngine = {
     },
     click() { this.playBeep(800, 0.04, 'triangle'); },
     correct() { this.playBeep(523, 0.1); setTimeout(() => this.playBeep(659, 0.1), 100); setTimeout(() => this.playBeep(783, 0.2), 200); },
-    wrong() { this.playBeep(220, 0.15, 'sawtooth'); setTimeout(() => this.playBeep(180, 0.25, 'sawtooth'), 120); },
-    alarm() { this.playBeep(900, 0.08, 'square'); }
+    wrong() { this.playBeep(220, 0.15, 'sawtooth'); setTimeout(() => this.playBeep(180, 0.25, 'sawtooth'), 120); }
 };
 
-// --- GAME DATA ---
-const C = [
+// --- CURRICULUM CLINICAL CASES ---
+const WARDS = [
 {
-    n: "Mr. Hamdy, 62", severity: "CRITICAL", badgeClass: "badge-crit",
-    c: "Collapsed mid-argument. Severe headache, vomiting, then could not move his left side.",
-    dialogue: { q: "Bedside check: 'Mr. Hamdy, can you hear me? Try to squeeze my fingers.'", a: "He looks terrified, eyes open, but his left arm stays completely limp." },
-    o: [
-        ["History","Hypertensive for years, poorly treated. BP now 220/120. Sudden onset headache."],
-        ["Motor exam","Left arm, left leg, and lower face paralyzed. Right side normal 5/5."],
-        ["Sensory exam","Left side: pain, temperature, touch, and position sense lost."],
-        ["Vision & hearing","Visual fields full. Hearing normal bilaterally."],
-        ["CT Head","Fresh dense blood deep in right hemisphere between thalamus & lentiform nucleus."],
-        ["Speech & smell","Speech fluent, comprehension intact, smell normal."]
-    ],
-    h: "Face, arm AND leg affected + all sensory modalities on left side. Internal capsule pathway.",
-    mapRegions: [
-        { id: "ic_genu_post", name: "Right internal capsule: genu and posterior limb" },
-        { id: "ic_ant", name: "Right internal capsule: anterior limb only" },
-        { id: "ic_retro", name: "Right internal capsule: retrolentiform part" },
-        { id: "basal", name: "Right caudate nucleus only" }
-    ],
-    q1: ["Where is the lesion?", ["Right internal capsule: genu and posterior limb","Right internal capsule: anterior limb only","Right internal capsule: retrolentiform part","Left internal capsule: posterior limb"]],
-    q2: ["Which vessel most likely bled?", ["Lateral striate branch of Middle Cerebral Artery (Charcot's Artery)","Recurrent artery of Heubner","Anterior choroidal artery","Posterior communicating artery"]],
-    f: "Contralateral hemiplegia including lower face + complete somatosensory loss points directly to the internal capsule opposite the deficit. Charcot's artery (lateral striate branch of MCA) is the primary site of hypertensive hemorrhage."
+    wardName: "Gross Neuroanatomy Ward",
+    cases: [
+    {
+        n: "Mr. Hamdy, 62", severity: "CRITICAL", badgeClass: "badge-crit",
+        c: "Collapsed mid-argument. Severe headache, vomiting, then paralysis of left face, arm, and leg.",
+        dialogue: { q: "Bedside: Squeeze my fingers.", a: "Patient looks terrified; left arm stays completely limp." },
+        o: [
+            ["History","Hypertensive for years. Sudden severe headache then collapse."],
+            ["Motor Exam","Left arm, leg, and lower face paralyzed. Right side normal."],
+            ["Sensory Exam","Left side: loss of touch, pain, temperature, and position sense."],
+            ["CT Head","Dense blood deep in right hemisphere between thalamus & lentiform nucleus."]
+        ],
+        h: "Internal capsule lesion involving genu and posterior limb.",
+        q1: ["Where is the lesion?", ["Right internal capsule: genu and posterior limb","Right internal capsule: anterior limb only","Right retrolentiform capsule","Left posterior limb"]],
+        q2: ["Which vessel bled?", ["Lateral striate branch of MCA (Charcot's Artery)","Recurrent artery of Heubner","Anterior choroidal artery","Posterior communicating artery"]],
+        f: "Contralateral hemiplegia + loss of all sensation points to the internal capsule. Charcot's lateral striate artery is the classic site of hypertensive bleed."
+    },
+    {
+        n: "Mrs. Nadia, 58", severity: "STABLE", badgeClass: "badge-stable",
+        c: "Bumps into door frames on her right side. No motor weakness or sensory loss.",
+        dialogue: { q: "Bedside: Look at my nose and tell me when fingers move.", a: "She completely fails to see movements on her right visual field." },
+        o: [
+            ["History","No motor weakness. Missing objects on her right side."],
+            ["Visual Fields","Right homonymous hemianopia confirmed."],
+            ["Hearing","Normal whisper and tuning fork test bilaterally."],
+            ["MRI Brain","Small infarct in left internal capsule behind lentiform nucleus."]
+        ],
+        h: "Behind the lentiform nucleus lies the retrolentiform part carrying optic radiation.",
+        q1: ["Where is the lesion?", ["Left retrolentiform part of internal capsule","Left sublentiform part","Left posterior limb","Right retrolentiform part"]],
+        q2: ["Which fibers are damaged?", ["Optic radiation (with parieto-occipito-pontine)","Auditory radiation","Corticospinal tract","Frontopontine fibers"]],
+        f: "Retrolentiform part contains optic radiation + parieto-occipito-pontine fibers. Sublentiform carries auditory radiation."
+    }
+    ]
 },
 {
-    n: "Mrs. Nadia, 58", severity: "STABLE", badgeClass: "badge-stable",
-    c: "Two days of 'missing things' on her right side. Bumps into door frames. No headache or weakness.",
-    dialogue: { q: "Bedside check: 'Mrs. Nadia, look straight at my nose. Tell me when you see my fingers move.'", a: "She misses my hand completely on her right side." },
-    o: [
-        ["History","Not clumsy with hands. Simply fails to notice objects/people approaching from the right."],
-        ["Motor exam","Power 5/5 all 4 limbs. Gait normal. Face symmetrical."],
-        ["Sensory exam","All somatosensory modalities intact."],
-        ["Visual fields","Right homonymous hemianopia confirmed."],
-        ["Hearing","Whisper & Weber tuning fork test normal bilaterally."],
-        ["MRI Brain","Small infarct in left internal capsule behind lentiform nucleus."]
-    ],
-    h: "No motor loss, no sensory loss. Only optic radiation passing behind the lentiform nucleus is hit.",
-    mapRegions: [
-        { id: "ic_retro", name: "Left retrolentiform part of internal capsule" },
-        { id: "ic_sub", name: "Left sublentiform part of internal capsule" },
-        { id: "ic_post", name: "Left posterior limb of internal capsule" },
-        { id: "ic_genu", name: "Left genu of internal capsule" }
-    ],
-    q1: ["Where is the lesion?", ["Left retrolentiform part of the internal capsule","Left sublentiform part of the internal capsule","Left posterior limb of the internal capsule","Right retrolentiform part of the internal capsule"]],
-    q2: ["Which fibers carry the lost vision through this region?", ["Optic radiation (with parieto-occipito-pontine fibers)","Auditory radiation (with temporo-pontine fibers)","Superior thalamic radiation","Corticospinal fibers"]],
-    f: "Retrolentiform part carries the optic radiation + parieto-occipito-pontine fibers. The sublentiform part carries the auditory radiation (her hearing was normal)."
+    wardName: "Histology & Cytology Ward",
+    cases: [
+    {
+        n: "Samy, 4 Years", severity: "STABLE", badgeClass: "badge-stable",
+        c: "Brought to clinic for recurrent urinary tract infections and bladder distension evaluation.",
+        dialogue: { q: "Bedside: Observe bladder ultrasound during filling.", a: "As bladder fills, mucosal lining thins out from 8 cell layers to 3 flat layers." },
+        o: [
+            ["Ultrasound","Urinary bladder showing massive volume change capacity."],
+            ["Biopsy","Superficial dome-shaped cells, some binucleated, resting on non-clear B.M."],
+            ["Staining","Acidophilic surface cells with inter-cellular mucus gliding substance."]
+        ],
+        h: "Epithelium that changes thickness and flattens out during distension.",
+        q1: ["Which epithelium lines this organ?", ["Transitional epithelium (Urothelium)","Stratified squamous non-keratinized","Stratified cubical","Simple columnar"]],
+        q2: ["What is the primary function of this tissue?", ["Protection & Distensibility","Gas diffusion","Enzyme secretion","Ciliary propulsion"]],
+        f: "Transitional epithelium (urothelium) lines the urinary bladder and ureter, accommodating volume changes via cell gliding."
+    },
+    {
+        n: "Baby Youssef, 6 Months", severity: "SPECIALIST", badgeClass: "badge-gen",
+        c: "Biopsy of biopsy sample sent to pathology to confirm gland secretion mechanism.",
+        dialogue: { q: "Pathology Check: Review electron micrograph of salivary acinar cell.", a: "Secretion vesicles fuse with apical cell membrane leaving cell fully intact." },
+        o: [
+            ["EM Findings","Exocytosis of secretory granules without cytoplasm loss."],
+            ["Cell Type","Pyramidal acinar cells with basal rER and spherical nucleus."]
+        ],
+        h: "Exocytosis secretion where cells remain intact.",
+        q1: ["What is this mechanism of secretion?", ["Merocrine secretion","Apocrine secretion","Holocrine secretion","Endocrine secretion"]],
+        q2: ["Which gland exemplifies holocrine secretion?", ["Sebaceous gland","Salivary gland","Mammary gland","Pancreas"]],
+        f: "Merocrine glands release by exocytosis without cell damage (salivary/pancreas). Holocrine destroys the whole cell (sebaceous)."
+    }
+    ]
 },
 {
-    n: "Mr. Farouk, 70", severity: "CHRONIC", badgeClass: "badge-chronic",
-    c: "Wife notes face has gone blank, handwriting is tiny, and he no longer swings his arms when walking.",
-    dialogue: { q: "Bedside check: 'Mr. Farouk, please stretch your arms out and hold them steady.'", a: "His right hand exhibits a quiet 'pill-rolling' resting tremor that stops when he reaches for a glass." },
-    o: [
-        ["History","Months of slow, progressive stiffness. Micrographia (small handwriting)."],
-        ["Gait & Posture","Stooped posture, short shuffling steps, loss of automatic arm swing."],
-        ["Tone & Tremor","Lead-pipe rigidity on passive movement. Resting tremor."],
-        ["Power","Full 5/5 power throughout. No paralysis."],
-        ["Sensory exam","Sensation completely normal."],
-        ["MRI Brain","No hemorrhage or infarct. Degeneration in deep basal ganglia nuclei."]
-    ],
-    h: "Rigidity, rest tremor, lost automatic movements, and NO paralysis. Pyramidal tract is clear.",
-    mapRegions: [
-        { id: "basal", name: "Basal nuclei (corpus striatum)" },
-        { id: "ic_post", name: "Posterior limb of internal capsule" },
-        { id: "ic_genu", name: "Genu of internal capsule" },
-        { id: "cc_body", name: "Body of corpus callosum" }
-    ],
-    q1: ["Which structure is primarily affected?", ["Basal nuclei (corpus striatum)","Posterior limb of internal capsule","Genu of internal capsule","Body of corpus callosum"]],
-    q2: ["Which statement about the corpus striatum is correct?", ["Caudate + putamen receive input; globus pallidus is the efferent outflow","Globus pallidus receives input; putamen is outflow","Caudate + putamen form lentiform nucleus","Claustrum is primary outflow"]],
-    f: "Corpus striatum degeneration causes rigidity, loss of automatic movements, and resting tremor. Striatum (caudate + putamen) receives input; globus pallidus is output."
-},
-{
-    n: "Ms. Salma, 54", severity: "STABLE", badgeClass: "badge-stable",
-    c: "3 months of worsening headaches. Neurosurgery requests exact localization of giant commissural mass.",
-    dialogue: { q: "Bedside check: 'Ms. Salma, where is the pain located?'", a: "She touches the back of her head. 'It hurts deep in the back, worse in the morning.'" },
-    o: [
-        ["History","No focal weakness, no seizures, no personality changes."],
-        ["Neuro exam","Power and sensation intact throughout."],
-        ["Sagittal MRI","Mass in posterior thickest end of C-shaped commissure, bulging backward."],
-        ["Axial MRI","Tumor spreads into both occipital poles in a lobster-claw pattern."],
-        ["Ventricles","Distortion of roof and lateral wall of posterior horns."],
-        ["Anterior commissure","Region completely clear."]
-    ],
-    h: "The thickest posterior end of the corpus callosum.",
-    mapRegions: [
-        { id: "cc_splenium", name: "Splenium of corpus callosum" },
-        { id: "cc_genu", name: "Genu of corpus callosum" },
-        { id: "cc_body", name: "Body of corpus callosum" },
-        { id: "cc_rostrum", name: "Rostrum of corpus callosum" }
-    ],
-    q1: ["Which part is involved?", ["Splenium","Genu","Rostrum","Body (trunk)"]],
-    q2: ["Which structures arise from this thickest part?", ["Tapetum and forceps major","Forceps minor","Floor of anterior horns","Septum pellucidum"]],
-    f: "Splenium: thickest posterior end. Gives rise to tapetum (roof & lateral wall of posterior horn) and forceps major (sweeping into occipital lobes)."
+    wardName: "Genetics & Molecular Biochemistry Ward",
+    cases: [
+    {
+        n: "Laila, 7 Years", severity: "CRITICAL", badgeClass: "badge-crit",
+        c: "Severe sun sensitivity, freckling, skin atrophy, and skin ulceration after brief outdoor play.",
+        dialogue: { q: "Bedside: Inspect skin lesions.", a: "Extensive dry, atrophic skin (xeroderma) with dark pigmented spots." },
+        o: [
+            ["History","Extreme sensitivity to sunlight since infancy."],
+            ["Skin Biopsy","Accumulation of UV-induced Thymine-Thymine dimers in DNA."],
+            ["Enzyme Assay","Deficiency in enzyme responsible for DNA incision repair."]
+        ],
+        h: "Inability to repair thymine dimers caused by UV light.",
+        q1: ["What is the diagnosis?", ["Xeroderma Pigmentosum (XP)","Turner Syndrome","Down Syndrome","Parkinsonism"]],
+        q2: ["Which enzyme is missing in this patient?", ["UV-specific Endonuclease","DNA Ligase","RNA Polymerase II","Telomerase"]],
+        f: "Xeroderma Pigmentosum is an autosomal recessive deficiency in UV-specific Endonuclease needed for Nucleotide Excision Repair (NER) of thymine dimers."
+    },
+    {
+        n: "Nour, 18 Years", severity: "SPECIALIST", badgeClass: "badge-gen",
+        c: "Evaluated for short stature, webbed neck, and primary amenorrhea in endocrinology clinic.",
+        dialogue: { q: "Bedside Check: Examine physical features.", a: "Short stature, low posterior hairline, broad chest with widely spaced nipples." },
+        o: [
+            ["Karyotype Analysis","45, X0 complement identified."],
+            ["Buccal Smear","Absence of Barr body (sex chromatin)."]
+        ],
+        h: "45,X0 female condition.",
+        q1: ["What is the diagnosis?", ["Turner Syndrome","Klinefelter Syndrome","Down Syndrome","Patau Syndrome"]],
+        q2: ["What is a Barr body?", ["Inactive condensed X chromosome in females","Active Y chromosome","Nucleolus remnant","Mitochondrial DNA loop"]],
+        f: "Turner syndrome (45,X0) presents with absent Barr bodies. Barr body is the condensed inactive X chromosome found in normal females (46,XX)."
+    }
+    ]
 }
 ];
 
-const L = [
-    ["Internal Capsule","V-shaped bundle of projection fibers. Anterior limb: frontopontine. Genu: corticobulbar. Posterior limb: corticospinal + superior thalamic radiation. Sublentiform: auditory. Retrolentiform: optic radiation."],
-    ["Arterial Supply","Anterior limb: MCA/ACA striate. Genu: Recurrent artery of Heubner/ICA. Posterior limb: Lateral striate (MCA) + Anterior Choroidal. Charcot's artery = lateral striate MCA branch."],
-    ["Basal Ganglia","Striatum = Caudate + Putamen (receptive). Lentiform = Putamen + Globus Pallidus. Globus Pallidus = efferent outflow. Degeneration causes Parkinsonism (rigidity, rest tremor, bradykinesia)."]
+const STUDY_LECS = [
+    ["Neuroanatomy White Matter", "Short Arcuate (adjacent gyri; Broca-Wernicke link). Long (Uncinate, Cingulum, Sup Longitudinal). Corpus Callosum (10 cm, 100M fibers: Rostrum, Genu, Body, Splenium). Internal Capsule: Ant limb (frontopontine), Genu (corticobulbar CNs), Post limb (corticospinal)."],
+    ["Histology Epithelia & Glands", "Simple: Squamous (alveoli/vessels), Cubical (thyroid/ducts), Columnar (stomach/intestine), Pseudostratified (trachea). Stratified: Squamous (skin/esophagus), Transitional (bladder - distensible). Glands: Merocrine (exocytosis), Apocrine (pinch off), Holocrine (cell dies)."],
+    ["Molecular & DNA Repair", "Replication: Semiconservative, oriC, DnaA, Helicase, Primase, Pol III (5'->3'), Pol I (primer removal), Ligase. Telomeres: TTAGGG repeats, TERT+TERC. Repair: UV Thymine dimers repaired by NER (UV-endonuclease). Defect = Xeroderma Pigmentosum."]
 ];
 
-const RANKS = ["Intern", "Junior Resident", "Senior Resident", "Chief Resident", "Attending Neurologist"];
-const EQUIPMENT = [
-    { name: "3T High-Field MRI", perk: "Reveals 1 free diagnostic test", reqRep: 150 },
-    { name: "Reflex Hammer", perk: "Adds +15s in Emergency Mode", reqRep: 300 }
-];
-
-// --- APP STATE ---
+// --- APP STATE & LOGIC ---
 const A = document.getElementById('app');
-let S = { rep: 0, best: {}, timerMode: false };
-let G = null, timerInterval = null;
+let S = { rep: 0, best: {} };
+let G = null;
 
-// Helper: Shuffle array
-const sh = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
-const mk = q => sh(q[1].map((t,i) => [t, i===0]));
-
-function getRank() {
-    const tot = Object.values(S.best).reduce((a,b)=>a+b, 0);
-    if(tot >= 380) return RANKS[4];
-    if(tot >= 300) return RANKS[3];
-    if(tot >= 200) return RANKS[2];
-    if(tot >= 100) return RANKS[1];
-    return RANKS[0];
-}
-
-// --- VIEWS ---
 function home() {
     AudioEngine.click();
-    if(timerInterval) clearInterval(timerInterval);
     const tot = Object.values(S.best).reduce((a,b)=>a+b, 0);
-    
-    let eqHtml = EQUIPMENT.map(e => {
-        const unlocked = tot >= e.reqRep;
-        return `<div class="perk-pill" style="opacity:${unlocked?1:0.4}">${unlocked?'✓':'🔒'} ${e.name} (${e.perk})</div>`;
-    }).join('');
 
-    A.innerHTML = `
+    let html = `
     <div class="bar">
-        <div><span class="mute">Shift Status</span><br><b>${getRank()}</b></div>
-        <div class="rep">⭐ ${tot} Rep</div>
+        <div><span class="mute">201 NSS Module</span><br><b>Medical Student Specialist</b></div>
+        <div class="rep">⭐ ${tot} Rep Points</div>
     </div>
-    <h1>Hospital Shift: Neuro Ward</h1>
-    <p class="mute">Real clinical neurology cases. Solve diagnoses, manage emergency timers, and build your hospital reputation.</p>
-    
-    <div class="card">
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
-            <input type="checkbox" id="timer-toggle" ${S.timerMode?'checked':''} onchange="toggleTimer()">
-            <b>Enable Emergency Mode (60s Timer)</b>
-        </label>
-    </div>
-
-    <div>${eqHtml}</div>
-
-    <h2>Active Ward Patients</h2>
-    ` + C.map((c,i) => `
-    <button class="card case" style="width:100%;text-align:left" onclick="open_(${i})">
-        <div class="patient-header">
-            <div class="avatar-box">
-                <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5zm0 12c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>
-            </div>
-            <div class="case-title">
-                <b>${c.n}</b> <span class="badge ${c.badgeClass}">${c.severity}</span>
-                <br><span class="mute">${c.c.slice(0,65)}...</span>
-            </div>
-            <div style="font-weight:800;color:var(--teal)">${S.best[i]!=null?S.best[i]+'/100':'NEW'}</div>
-        </div>
-    </button>
-    `).join('') + `
-    <button class="btn ghost" onclick="lib()">Open Lecture Study Library</button>
+    <h1>201 NSS Clinical Ward Engine</h1>
+    <p class="mute">Curriculum-aligned clinical cases for Gross Anatomy, Histology, and Molecular Biochemistry.</p>
+    <button class="btn ghost" onclick="lib()">📖 Open Mind Maps & Lecture Summaries</button>
     `;
-}
 
-function toggleTimer() {
-    AudioEngine.click();
-    S.timerMode = document.getElementById('timer-toggle').checked;
+    WARDS.forEach((w, wIdx) => {
+        html += `<div class="ward-section">${w.wardName}</div>`;
+        w.cases.forEach((c, cIdx) => {
+            const caseKey = `${wIdx}_${cIdx}`;
+            html += `
+            <button class="card case" style="width:100%;text-align:left" onclick="open_(${wIdx}, ${cIdx})">
+                <div class="patient-header">
+                    <div class="avatar-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5zm0 12c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>
+                    </div>
+                    <div class="case-title">
+                        <b>${c.n}</b> <span class="badge ${c.badgeClass}">${c.severity}</span>
+                        <br><span class="mute">${c.c.slice(0,65)}...</span>
+                    </div>
+                    <div style="font-weight:800;color:var(--teal)">${S.best[caseKey]!=null?S.best[caseKey]+'/100':'NEW'}</div>
+                </div>
+            </button>`;
+        });
+    });
+
+    A.innerHTML = html;
 }
 
 function lib() {
     AudioEngine.click();
     A.innerHTML = `
     <div class="bar">
-        <button class="btn ghost" style="width:auto;margin:0;padding:6px 12px" onclick="home()">Back</button>
-        <span class="rep">Study Library</span>
+        <button class="btn ghost" style="width:auto;margin:0;padding:6px 12px" onclick="home()">Back to Ward</button>
+        <span class="rep">Study Mind Maps</span>
     </div>
-    <h2>Neuroanatomy Reference</h2>
-    ` + L.map(x => `<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('');
+    <h2>201 NSS Curriculum Summaries</h2>
+    <div class="card">
+        <b>Central Dogma Mind Map</b>
+        <pre>
+  DNA REPLICATION         TRANSCRIPTION            TRANSLATION
+(DNA -> DNA: Pol III)   (DNA -> RNA: Pol II)   (RNA -> Protein)
+  ├─ oriC / Helicase      ├─ Promoters           ├─ Genetic Code
+  ├─ Leading / Lagging    │   ├─ Prok: -10, -35   │   ├─ AUG Start
+  └─ DNA Repair (NER)     │   └─ Euk: TATA, CAAT  │   └─ Stop: UAA,UAG,UGA
+      └─ Defect = XP      └─ Pol I, II, III      └─ Wobble Hypothesis
+        </pre>
+    </div>
+    ` + STUDY_LECS.map(x => `<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('');
 }
 
-function open_(i) {
+function open_(wIdx, cIdx) {
     AudioEngine.click();
-    const tot = Object.values(S.best).reduce((a,b)=>a+b, 0);
-    const hasMRIPerk = tot >= 150;
-    const extraTimePerk = tot >= 300;
-
+    const c = WARDS[wIdx].cases[cIdx];
     G = {
-        i, u: [], s: 1, sel: null, a1: null, a2: null, h: 0,
-        o1: mk(C[i].q1), o2: mk(C[i].q2),
-        dialogueDone: false,
-        timeLeft: S.timerMode ? (60 + (extraTimePerk?15:0)) : null,
-        maxTime: S.timerMode ? (60 + (extraTimePerk?15:0)) : null,
-        mapSelected: null
+        wIdx, cIdx, c, caseKey: `${wIdx}_${cIdx}`,
+        u: [], s: 1, sel: null, a1: null, a2: null, h: 0,
+        o1: sh(c.q1[1].map((t,i)=>[t,i===0])),
+        o2: sh(c.q2[1].map((t,i)=>[t,i===0])),
+        dialogueDone: false
     };
-
-    if(hasMRIPerk) {
-        G.u.push(0); // Free first order unlocked!
-    }
-
-    if(S.timerMode) {
-        timerInterval = setInterval(() => {
-            if(G.timeLeft > 0) {
-                G.timeLeft--;
-                const tf = document.getElementById('timer-fill');
-                if(tf) tf.style.width = (G.timeLeft / G.maxTime * 100) + '%';
-                if(G.timeLeft <= 10) AudioEngine.alarm();
-            } else {
-                clearInterval(timerInterval);
-                fin(true); // Time out!
-            }
-        }, 1000);
-    }
-
     view();
 }
 
 function view() {
-    const c = C[G.i], left = 4 - G.u.length;
+    const c = G.c, left = 4 - G.u.length;
     let h = `
     <div class="bar">
         <button class="btn ghost" style="width:auto;margin:0;padding:6px 12px" onclick="home()">Leave Ward</button>
         <span class="mute">Orders Left: <b>${left}</b></span>
     </div>
-    `;
-
-    if(S.timerMode) {
-        h += `
-        <div class="timer-bar"><div id="timer-fill" class="timer-fill" style="width:${(G.timeLeft/G.maxTime)*100}%"></div></div>
-        `;
-    }
-
-    h += `
     <div class="card">
         <div class="patient-header">
             <div class="avatar-box">
@@ -320,27 +267,18 @@ function view() {
     </div>
     `;
 
-    // Bedside Dialogue Step
     if(!G.dialogueDone) {
-        h += `
-        <div class="find">
-            <b>Bedside Check</b>
-            <p>${c.dialogue.q}</p>
-            <button class="btn" style="margin-top:6px" onclick="doDialogue()">Examine Patient Response</button>
-        </div>
-        `;
+        h += `<div class="find"><b>Bedside Examination</b><p>${c.dialogue.q}</p><button class="btn" style="margin-top:6px" onclick="doDialogue()">Perform Examination</button></div>`;
     } else {
-        h += `<div class="find"><b>Patient Response</b>${c.dialogue.a}</div>`;
+        h += `<div class="find"><b>Examination Finding</b>${c.dialogue.a}</div>`;
     }
 
-    // Orders Grid
     h += `<div class="ord">` + c.o.map((o,k) => `
         <button class="${G.u.includes(k)?'u':''}" ${G.s>1||(!G.u.includes(k)&&!left)?'disabled':''} onclick="ord(${k})">
             ${G.u.includes(k)?'✓ ':''}${o[0]}
         </button>
     `).join('') + `</div>`;
 
-    // Findings List
     h += G.u.map(k => `<div class="find"><b>${c.o[k][0]}</b>${c.o[k][1]}</div>`).join('');
 
     if(G.h) h += `<div class="find"><b>Attending Hint (-10 Rep)</b>${c.h}</div>`;
@@ -348,71 +286,22 @@ function view() {
         h += `<button class="btn ghost" onclick="hint()" ${G.h?'disabled':''}>Ask Attending for Hint (-10)</button>`;
     }
 
-    // ANATOMIC MAP PICKER (Question 1)
-    if(G.s === 1 && G.dialogueDone) {
-        h += `
-        <h2>Anatomic Localization Map</h2>
-        <p class="mute">Tap region on brain cross-section or choose option below:</p>
-        <svg class="brain-map" viewBox="0 0 200 160">
-            <!-- Brain outline -->
-            <path d="M 20,80 Q 20,20 100,20 Q 180,20 180,80 Q 180,140 100,140 Q 20,140 20,80 Z" fill="#14232d" stroke="#2b4553" stroke-width="2"/>
-            <!-- Ventricles -->
-            <path d="M 85,50 Q 100,30 115,50 Q 100,70 85,50 Z" fill="#0b151c"/>
-            <!-- Interactive Regions -->
-            <ellipse class="brain-region ${G.mapSelected===0?'selected':''}" cx="130" cy="75" rx="18" ry="12" onclick="selectMapRegion(0)"/>
-            <ellipse class="brain-region ${G.mapSelected===1?'selected':''}" cx="110" cy="50" rx="12" ry="10" onclick="selectMapRegion(1)"/>
-            <ellipse class="brain-region ${G.mapSelected===2?'selected':''}" cx="150" cy="95" rx="14" ry="10" onclick="selectMapRegion(2)"/>
-            <ellipse class="brain-region ${G.mapSelected===3?'selected':''}" cx="80" cy="80" rx="15" ry="15" onclick="selectMapRegion(3)"/>
-            <text x="100" y="148" fill="#58737F" font-size="8" text-anchor="middle">Right Hemisphere Cross-Section</text>
-        </svg>
-        `;
-    }
-
     const q = G.s===1 ? c.q1 : c.q2;
     const os = G.s===1 ? G.o1 : G.o2;
 
     if(G.dialogueDone) {
-        h += `<h2 style="margin-top:16px">${G.s===1?'Diagnosis: ':'Follow-Up: '}${q[0]}</h2>` +
-        os.map((o,k) => `
-            <button class="opt ${G.sel===k?'s':''}" onclick="pick(${k})">${o[0]}</button>
-        `).join('') +
-        `<button class="btn" ${G.sel==null?'disabled':''} onclick="lock()">Lock In Choice</button>`;
+        h += `<h2 style="margin-top:16px">${G.s===1?'Diagnosis: ':'Management: '}${q[0]}</h2>` +
+        os.map((o,k) => `<button class="opt ${G.sel===k?'s':''}" onclick="pick(${k})">${o[0]}</button>`).join('') +
+        `<button class="btn" ${G.sel==null?'disabled':''} onclick="lock()">Lock In Answer</button>`;
     }
 
     A.innerHTML = h;
 }
 
-function doDialogue() {
-    AudioEngine.click();
-    G.dialogueDone = true;
-    view();
-}
-
-function selectMapRegion(idx) {
-    AudioEngine.click();
-    G.mapSelected = idx;
-    pick(idx);
-}
-
-function ord(k) {
-    if(G.s>2 || G.u.includes(k) || G.u.length>=4) return;
-    AudioEngine.click();
-    G.u.push(k);
-    view();
-}
-
-function hint() {
-    AudioEngine.alarm();
-    G.h++;
-    view();
-}
-
-function pick(k) {
-    AudioEngine.click();
-    G['s'+G.s] = k;
-    G.sel = k;
-    view();
-}
+function doDialogue() { AudioEngine.click(); G.dialogueDone = true; view(); }
+function ord(k) { if(G.s>2||G.u.includes(k)||G.u.length>=4) return; AudioEngine.click(); G.u.push(k); view(); }
+function hint() { AudioEngine.wrong(); G.h++; view(); }
+function pick(k) { AudioEngine.click(); G['s'+G.s] = k; G.sel = k; view(); }
 
 function lock() {
     G['a'+G.s] = G.sel;
@@ -422,24 +311,12 @@ function lock() {
         G.s = 2;
         view();
     } else {
-        if(timerInterval) clearInterval(timerInterval);
-        fin(false);
+        fin();
     }
 }
 
-function fin(timedOut = false) {
-    const c = C[G.i];
-    if(timedOut) {
-        AudioEngine.wrong();
-        A.innerHTML = `
-        <h1>TIME EXPIRED</h1>
-        <p class="mute">Patient condition deteriorated before diagnosis was locked.</p>
-        <button class="btn" onclick="open_(${G.i})">Retry Shift</button>
-        <button class="btn ghost" onclick="home()">Back to Ward</button>
-        `;
-        return;
-    }
-
+function fin() {
+    const c = G.c;
     const k1 = G.o1[G.a1][1];
     const k2 = G.o2[G.a2][1];
     const left = 4 - G.u.length;
@@ -449,7 +326,7 @@ function fin(timedOut = false) {
 
     if(k1 && k2) AudioEngine.correct(); else AudioEngine.wrong();
 
-    if(S.best[G.i] == null || s > S.best[G.i]) S.best[G.i] = s;
+    if(S.best[G.caseKey] == null || s > S.best[G.caseKey]) S.best[G.caseKey] = s;
 
     const rv = (os, a) => os.map((o,k) => `
         <div class="opt ${o[1]?'ok':k===a?'no':''}" style="${o[1]||k===a?'':'opacity:.5'}">
@@ -460,7 +337,7 @@ function fin(timedOut = false) {
     A.innerHTML = `
     <h1>${s} / 100 Rep Points</h1>
     <p style="font-weight:800;color:${k1&&k2?'var(--ok)':'var(--bad)'}">
-        ${k1&&k2?'CASE SOLVED PERFECTLY':k1?'CORRECT LOCATION, WRONG MANAGEMENT':'DIAGNOSTIC MISTAKE'}
+        ${k1&&k2?'CASE SOLVED PERFECTLY':k1?'CORRECT DIAGNOSIS, WRONG FOLLOW-UP':'DIAGNOSTIC MISTAKE'}
     </p>
 
     <h2>Diagnosis</h2>
@@ -470,15 +347,18 @@ function fin(timedOut = false) {
     ${rv(G.o2, G.a2)}
 
     <div class="card">
-        <b>Clinical Debrief</b>
+        <b>Clinical Summary</b>
         <p>${c.f}</p>
     </div>
 
-    <button class="btn" onclick="open_(${G.i})">Replay Case</button>
+    <button class="btn" onclick="open_(${G.wIdx}, ${G.cIdx})">Replay Case</button>
     <button class="btn ghost" onclick="home()">Return to Ward</button>
     `;
 }
 
-// Start Game
+// Helpers
+function sh(a) { a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+// Run
 home();
 </script></body></html>
