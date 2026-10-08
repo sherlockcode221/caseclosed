@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NSS 201 - Neuroanatomy Study & Clinical Hub</title>
+    <title>NSS 201 - Complete Neuroanatomy Clinical & Study Hub</title>
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,11 +19,12 @@
             --accent-light: #eff6ff;
             --border-color: #e2e8f0;
             --success: #10b981;
-            --warning: #f59e0b;
+            --success-bg: #dcfce7;
             --danger: #ef4444;
+            --danger-bg: #fee2e2;
+            --warning-bg: #fef9c3;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --radius-md: 8px;
             --radius-lg: 12px;
         }
@@ -70,7 +71,6 @@
         .brand h2 {
             font-size: 18px;
             font-weight: 700;
-            color: var(--text-primary);
         }
 
         .nav-menu {
@@ -108,36 +108,39 @@
         }
 
         header {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         header h1 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
         }
 
         header p {
             color: var(--text-secondary);
+            font-size: 14px;
             margin-top: 4px;
         }
 
-        /* Lecture Selector Tabs */
-        .lecture-tabs {
+        /* Lecture Selector Bar */
+        .lecture-nav {
             display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--border-color);
+            gap: 8px;
+            overflow-x: auto;
             padding-bottom: 12px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
         }
 
-        .tab-btn {
-            background: none;
-            border: none;
-            padding: 8px 16px;
-            font-size: 15px;
+        .lec-btn {
+            white-space: nowrap;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-secondary);
             cursor: pointer;
@@ -145,12 +148,14 @@
             transition: all 0.2s ease;
         }
 
-        .tab-btn.active {
+        .lec-btn.active {
             background-color: var(--accent-color);
             color: white;
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* View Mode Switcher (Theory / Cases / Flashcards) */
+        /* Mode Selector */
         .view-switcher {
             display: flex;
             gap: 8px;
@@ -162,11 +167,12 @@
         }
 
         .view-btn {
-            padding: 6px 16px;
+            padding: 8px 18px;
             border: none;
             background: none;
             border-radius: 6px;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 13px;
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.2s;
@@ -178,7 +184,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* Content Display Cards */
+        /* Cards & Content */
         .card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -198,8 +204,8 @@
         }
 
         .card-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             color: var(--text-primary);
         }
 
@@ -212,7 +218,7 @@
             font-weight: 600;
         }
 
-        /* Case Box Styling */
+        /* Clinical Case Section */
         .case-box {
             background-color: #f1f5f9;
             border-left: 4px solid var(--accent-color);
@@ -230,11 +236,10 @@
             gap: 8px;
         }
 
-        /* Multiple Choice Options */
         .options-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             margin-top: 12px;
         }
 
@@ -259,31 +264,39 @@
 
         .option-btn.correct {
             border-color: var(--success);
-            background-color: #dcfce7;
+            background-color: var(--success-bg);
             color: #15803d;
+            font-weight: 600;
         }
 
         .option-btn.incorrect {
             border-color: var(--danger);
-            background-color: #fee2e2;
+            background-color: var(--danger-bg);
             color: #b91c1c;
+            font-weight: 600;
         }
 
         .explanation {
-            margin-top: 12px;
-            padding: 12px;
-            background-color: #fffbe3;
+            margin-top: 14px;
+            padding: 14px;
+            background-color: var(--warning-bg);
             border: 1px solid #fde047;
             border-radius: var(--radius-md);
-            font-size: 13px;
+            font-size: 13.5px;
+            line-height: 1.6;
             display: none;
         }
 
-        /* Flashcard Feature */
+        /* Flashcard Component */
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
         .flashcard-container {
             perspective: 1000px;
-            width: 100%;
-            height: 250px;
+            height: 220px;
             cursor: pointer;
         }
 
@@ -292,9 +305,8 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s;
+            transition: transform 0.5s ease;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
         }
 
         .flashcard.flipped {
@@ -310,37 +322,31 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 24px;
+            padding: 20px;
             border-radius: var(--radius-lg);
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             text-align: center;
+            box-shadow: var(--shadow-sm);
         }
 
         .card-back {
             transform: rotateY(180deg);
             background-color: var(--accent-light);
             color: var(--accent-color);
+            border-color: #bfdbfe;
         }
 
-        /* Responsive Layout */
         @media (max-width: 768px) {
-            sidebar {
-                width: 70px;
-            }
-            sidebar .brand h2, sidebar .nav-item span {
-                display: none;
-            }
-            main {
-                margin-left: 70px;
-                padding: 16px;
-            }
+            sidebar { width: 70px; }
+            sidebar .brand h2, sidebar .nav-item span { display: none; }
+            main { margin-left: 70px; padding: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Navigation -->
+    <!-- Navigation Sidebar -->
     <sidebar>
         <div class="brand">
             <i class="fa-solid fa-brain"></i>
@@ -349,7 +355,7 @@
         <div class="nav-menu">
             <div class="nav-item active" onclick="switchView('study')">
                 <i class="fa-solid fa-book-open"></i>
-                <span>Lecture Hub</span>
+                <span>Lecture Summaries</span>
             </div>
             <div class="nav-item" onclick="switchView('cases')">
                 <i class="fa-solid fa-user-doctor"></i>
@@ -362,153 +368,296 @@
         </div>
     </sidebar>
 
-    <!-- Main Content Body -->
+    <!-- Main Workspace -->
     <main>
         <header>
             <div>
                 <h1>Neuro-Spinal-System (NSS 201)</h1>
-                <p>Interactive medical study hub, clinical case resolver, and lecture overview.</p>
+                <p>Complete anatomical breakdowns, targeted clinical cases, and self-assessment tools.</p>
             </div>
             <span class="badge"><i class="fa-solid fa-sun"></i> Light Theme</span>
         </header>
 
-        <!-- Lecture Selection -->
-        <div class="lecture-tabs">
-            <button class="tab-btn active" onclick="selectLecture('lec1')">L1: Cerebrum White Matter</button>
-            <button class="tab-btn" onclick="selectLecture('lec2')">L2: Basal Ganglia</button>
-            <button class="tab-btn" onclick="selectLecture('lec3')">L3: Internal Capsule</button>
+        <!-- Lecture Selector -->
+        <div class="lecture-nav">
+            <button class="lec-btn active" onclick="selectLec('lec1')">L1: White Matter</button>
+            <button class="lec-btn" onclick="selectLec('lec2')">L2: Basal Nuclei</button>
+            <button class="lec-btn" onclick="selectLec('lec3')">L3: Internal Capsule</button>
+            <button class="lec-btn" onclick="selectLec('lec4')">L4: Functional Cortical Areas</button>
+            <button class="lec-btn" onclick="selectLec('lec5')">L5: Ventricles & CSF</button>
         </div>
 
-        <!-- View Mode Switcher -->
+        <!-- Mode Switcher -->
         <div class="view-switcher">
             <button class="view-btn active" id="btn-summary" onclick="setMode('summary')">Summary & Notes</button>
             <button class="view-btn" id="btn-cases" onclick="setMode('cases')">Clinical Cases</button>
             <button class="view-btn" id="btn-cards" onclick="setMode('cards')">Flashcards</button>
         </div>
 
-        <!-- Dynamic Content Display Area -->
+        <!-- Dynamic Content Mount -->
         <div id="content-area"></div>
     </main>
 
     <script>
-        // Lecture Content Data (Extracted from NSS 201 curriculum)
-        const nssData = {
+        const nssFullData = {
             lec1: {
                 title: "White Matter of the Cerebrum",
                 summary: [
-                    "<b>Association Fibers:</b> Interconnect different cortical regions within the same hemisphere. Includes short arcuate fibers (adjacent gyri) and long association fibers (e.g., Uncinate Fasciculus, Cingulum, Superior & Inferior Longitudinal Fasciculi).",
-                    "<b>Commissural Fibers:</b> Connect corresponding areas of the left and right hemispheres. Corpus Callosum is the largest commissure (100 million fibers), consisting of Rostrum, Genu, Body, and Splenium. Others include Anterior, Posterior, Habenular, and Hippocampal commissures.",
-                    "<b>Projection Fibers:</b> Connect the cerebral cortex to lower centers (brainstem and spinal cord). Examples include Corticospinal and Corticobulbar tracts passing through the Internal Capsule."
+                    "<b>Association Fibers:</b> Interconnect different cortical areas within the same cerebral hemisphere. Divided into <i>Short Association Fibers</i> (Arcuate fibers connecting adjacent gyri) and <i>Long Association Fibers</i> (Uncinate fasciculus, Cingulum, Superior longitudinal fasciculus, Fronto-occipital fasciculus, Inferior longitudinal fasciculus).",
+                    "<b>Commissural Fibers:</b> Interconnect corresponding cortical areas of the two cerebral hemispheres. Key commissures include Corpus Callosum (largest, 100M fibers with Rostrum, Genu, Body, Splenium), Anterior Commissure, Posterior Commissure, Habenular Commissure, and Hippocampal Commissure.",
+                    "<b>Projection Fibers:</b> Connect the cerebral cortex with subcortical centers (thalamus, brainstem, spinal cord). Include ascending sensory pathways and descending motor pathways (Corticospinal / Corticobulbar) traveling primarily via the Internal Capsule."
                 ],
                 cases: [
                     {
-                        title: "Case 1: Conduction Aphasia",
-                        scenario: "A 58-year-old patient presents with fluid speech and normal comprehension, but severe difficulty repeating words spoken by the physician. Imaging shows a stroke damaging a specific long association bundle connecting Broca's and Wernicke's areas.",
+                        title: "Case 1.1: Conduction Aphasia",
+                        scenario: "A 61-year-old right-handed female suffers a cerebral ischemic event. Post-stroke, her speech fluency is fluent and spontaneous, and her comprehension of written and spoken language is completely intact. However, when asked to repeat simple phrases like 'No ifs, ands, or buts', she fails completely. Neuroimaging localizes the lesion to a deep fiber tract in the dominant hemisphere.",
                         options: [
                             { text: "Uncinate Fasciculus", correct: false },
-                            { text: "Arcuate Fasciculus (Superior Longitudinal)", correct: true },
-                            { text: "Corpus Callosum", correct: false },
+                            { text: "Arcuate Fasciculus (Superior Longitudinal Fasciculus)", correct: true },
+                            { text: "Corpus Callosum (Genu)", correct: false },
                             { text: "Anterior Commissure", correct: false }
                         ],
-                        explanation: "The Arcuate Fasciculus connects Wernicke's (language comprehension) with Broca's area (motor speech). Disruption leads to Conduction Aphasia (impaired repetition with preserved comprehension)."
+                        explanation: "The Arcuate Fasciculus is a key long association bundle connecting Wernicke's Area (understanding) with Broca's Area (motor speech output). Disruption causes Conduction Aphasia, characterized by prominent repetition deficits despite preserved comprehension and speech fluency."
                     },
                     {
-                        title: "Case 2: Alexia without Agraphia (Disconnection Syndrome)",
-                        scenario: "A patient suffers an ischemic stroke involving the left Posterior Cerebral Artery (PCA), damaging the posterior portion of the Corpus Callosum. The patient can write sentences normally but is completely unable to read what they just wrote.",
+                        title: "Case 1.2: Alexia Without Agraphia",
+                        scenario: "A 68-year-old male presents with visual field loss and an unusual reading impairment. He can write complex sentences voluntarily without error, but cannot read sentences—including those he wrote moments prior. MRI shows an infarction of the left posterior cerebral artery involving the left visual cortex and the posterior region of the corpus callosum.",
                         options: [
-                            { text: "Genu of Corpus Callosum", correct: false },
                             { text: "Rostrum of Corpus Callosum", correct: false },
                             { text: "Splenium of Corpus Callosum", correct: true },
-                            { text: "Anterior Commissure", correct: false }
+                            { text: "Habenular Commissure", correct: false },
+                            { text: "Cingulum", correct: false }
                         ],
-                        explanation: "The Splenium transfers visual information from the right visual cortex across the midline to the left hemisphere language center. Damage causes Alexia without Agraphia."
+                        explanation: "The Splenium (the thick posterior portion of the corpus callosum) transfers visual inputs from the right visual hemisphere across to the left hemisphere language areas. Damage to the left occipital lobe plus the splenium disconnects visual processing from the language region, producing Alexia without Agraphia."
+                    },
+                    {
+                        title: "Case 1.3: Personality Change & Frontotemporal Disconnection",
+                        scenario: "A 45-year-old patient exhibits noticeable personality changes, inappropriate social behavior, and memory deficits. Imaging shows disruption of a curved white matter bundle that crosses the floor of the lateral sulcus and connects the frontal orbital gyri with the anterior temporal pole.",
+                        options: [
+                            { text: "Uncinate Fasciculus", correct: true },
+                            { text: "Inferior Longitudinal Fasciculus", correct: false },
+                            { text: "Posterior Commissure", correct: false },
+                            { text: "Hippocampal Commissure", correct: false }
+                        ],
+                        explanation: "The Uncinate Fasciculus is a long association tract connecting the limbic system/temporal pole to the frontal lobe orbital gyri, crucial for emotion processing, social cognition, and memory integration."
                     }
                 ],
                 cards: [
-                    { front: "What connects adjacent gyri in the same hemisphere?", back: "Short Association Fibers (Arcuate Fibers)." },
-                    { front: "Which structure is the largest commissure of the brain?", back: "Corpus Callosum (~100 million fibers)." },
-                    { front: "Which fibers connect the cerebral cortex to lower spinal levels?", back: "Projection Fibers." }
+                    { front: "What do Short Association (Arcuate) Fibers connect?", back: "Adjacent gyri within the same cerebral hemisphere by hooking around sulci." },
+                    { front: "Name the 4 anatomical parts of the Corpus Callosum from anterior to posterior.", back: "Rostrum, Genu, Body (Trunk), and Splenium." },
+                    { front: "Which commissure connects olfactory structures across hemispheres?", back: "Anterior Commissure (connects olfactory bulbs, anterior perforated substances, piriform lobes)." }
                 ]
             },
             lec2: {
                 title: "Basal Ganglia & Subcortical Nuclei",
                 summary: [
-                    "<b>Basal Ganglia Components:</b> Caudate Nucleus, Putamen, Globus Pallidus (Striatum = Caudate + Putamen).",
-                    "<b>Functional Role:</b> Regulation of voluntary motor control, procedural learning, and movement initiation.",
-                    "<b>Direct vs. Indirect Pathway:</b> Direct pathway promotes movement; indirect pathway inhibits unwanted movement."
+                    "<b>Anatomical Division:</b> Caudate Nucleus, Putamen, Globus Pallidus (Internal & External segments), Subthalamic Nucleus, and Substantia Nigra.",
+                    "<b>Terminology:</b> Corpus Striatum = Caudate + Putamen + Globus Pallidus. Neostriatum (Striatum) = Caudate + Putamen. Lentiform Nucleus = Putamen + Globus Pallidus.",
+                    "<b>Pathways & Function:</b> Direct pathway disinhibits the thalamus to promote motor movement. Indirect pathway increases thalamic inhibition to suppress unwanted movements. Balance regulates muscle tone and motor execution."
                 ],
                 cases: [
                     {
-                        title: "Case 1: Resting Tremor & Rigidity",
-                        scenario: "A 65-year-old male presents with a pill-rolling resting tremor, cogwheel rigidity, and bradykinesia. Degeneration of dopaminergic neurons in a specific subcortical structure is noted.",
+                        title: "Case 2.1: Resting Tremor & Bradykinesia",
+                        scenario: "A 67-year-old male exhibits a 'pill-rolling' resting tremor in his right hand, mask-like facial expression, stooped posture, and difficulty initiating steps (bradykinesia). Histopathology demonstrates loss of pigmented dopaminergic neurons in the midbrain.",
                         options: [
                             { text: "Substantia Nigra Pars Compacta", correct: true },
                             { text: "Caudate Nucleus", correct: false },
                             { text: "Subthalamic Nucleus", correct: false },
-                            { text: "Globus Pallidus Internus", correct: false }
+                            { text: "Putamen", correct: false }
                         ],
-                        explanation: "Parkinson's Disease is characterized by the loss of dopaminergic neurons in the Substantia Nigra Pars Compacta, disrupting basal ganglia motor output circuits."
+                        explanation: "Parkinson's Disease results from degeneration of dopaminergic neurons in the Substantia Nigra Pars Compacta, resulting in impaired direct pathway activation and overactivity of the indirect pathway."
                     },
                     {
-                        title: "Case 2: Sudden Hemiballismus",
-                        scenario: "A patient develops sudden, involuntary, violent flinging movements of the right upper and lower limbs following a stroke. Where is the lesion?",
+                        title: "Case 2.2: Violent Flinging Limb Movements",
+                        scenario: "A 72-year-old hypertensive patient presents to the emergency room with sudden-onset, non-rhythmic, violent flinging movements of his right arm and leg. A small lacunar stroke in the contralateral subcortical hemisphere is identified.",
                         options: [
                             { text: "Left Subthalamic Nucleus", correct: true },
                             { text: "Right Caudate Nucleus", correct: false },
-                            { text: "Left Putamen", correct: false },
-                            { text: "Corpus Callosum", correct: false }
+                            { text: "Left Globus Pallidus Internus", correct: false },
+                            { text: "Right Putamen", correct: false }
                         ],
-                        explanation: "Lesions of the contralateral Subthalamic Nucleus reduce excitation of Globus Pallidus, releasing thalamocortical drive and leading to Hemiballismus."
+                        explanation: "Hemiballismus is caused by a lesion in the contralateral Subthalamic Nucleus. Loss of excitation from the subthalamic nucleus to the Globus Pallidus Internus removes the inhibitory break on the motor thalamus."
+                    },
+                    {
+                        title: "Case 2.3: Chorea & Cognitive Decline",
+                        scenario: "A 40-year-old woman develops progressive involuntary, dance-like jerky movements (chorea) along with emotional lability and cognitive decline. Genetic testing reveals CAG trinucleotide repeat expansion. Brain MRI shows marked atrophy of the ventricular walls.",
+                        options: [
+                            { text: "Atrophy of Caudate Nucleus & Putamen", correct: true },
+                            { text: "Demyelination of Optic Nerve", correct: false },
+                            { text: "Infarction of Anterior Commissure", correct: false },
+                            { text: "Degeneration of Cerebellar Vermis", correct: false }
+                        ],
+                        explanation: "Huntington's Disease is characterized by selective loss of GABAergic medium spiny neurons in the Caudate Nucleus and Putamen, leading to enlargement of the lateral ventricles and choreiform movements."
                     }
                 ],
                 cards: [
-                    { front: "What constitutes the Striatum?", back: "Caudate Nucleus and Putamen." },
-                    { front: "What movement disorder results from Subthalamic Nucleus lesion?", back: "Contralateral Hemiballismus." }
+                    { front: "What structures compose the Lentiform Nucleus?", back: "Putamen + Globus Pallidus (Lateral and Medial segments)." },
+                    { front: "What is the primary neurochemical deficit in Parkinson's Disease?", back: "Dopamine deficiency due to loss of nigrostriatal neurons." },
+                    { front: "What clinical syndrome results from acute damage to the Subthalamic Nucleus?", back: "Contralateral Hemiballismus (violent flinging movement of limbs)." }
                 ]
             },
             lec3: {
                 title: "The Internal Capsule",
                 summary: [
-                    "<b>Anatomy:</b> V-shaped band of white matter separated into Anterior Limb, Genu, and Posterior Limb.",
-                    "<b>Anterior Limb:</b> Contains Frontopontine and Anterior Thalamic radiation.",
-                    "<b>Genu:</b> Contains Corticobulbar tract (innervates cranial nerve nuclei).",
-                    "<b>Posterior Limb:</b> Contains Corticospinal tract (motor output to limbs) and Sensory Radiations."
+                    "<b>Structure & Topography:</b> A V-shaped compact band of projection fibers situated between the thalamus and caudate nucleus medially, and the lentiform nucleus laterally.",
+                    "<b>Anatomical Subdivisions:</b> <i>Anterior Limb</i> (between caudate head & lentiform nucleus), <i>Genu</i> (apex of V), <i>Posterior Limb</i> (between thalamus & lentiform nucleus), <i>Retrolentiform Part</i>, and <i>Sublentiform Part</i>.",
+                    "<b>Fiber Content:</b> Genu carries Corticobulbar fibers (cranial nerve motor control). Posterior Limb carries Corticospinal tract (motor for limbs/trunk) and Thalamocortical sensory fibers."
                 ],
                 cases: [
                     {
-                        title: "Case 1: Pure Motor Hemiplegia",
-                        scenario: "A 62-year-old hypertensive patient presents with sudden right-sided dense hemiplegia involving equal severity in the face, arm, and leg. Sensory testing is normal.",
+                        title: "Case 3.1: Pure Motor Hemiplegia",
+                        scenario: "A 64-year-old male with long-standing hypertension suffers a lacunar stroke due to occlusion of Charcot's artery (lenticulostriate branch of MCA). He presents with dense paralysis of the left lower face, left arm, and left leg, without sensory loss or visual field defects.",
                         options: [
-                            { text: "Posterior Limb & Genu of Internal Capsule", correct: true },
-                            { text: "Anterior Limb of Internal Capsule", correct: false },
-                            { text: "Uncinate Fasciculus", correct: false },
-                            { text: "Subthalamic Nucleus", correct: false }
+                            { text: "Genu & Posterior Limb of Right Internal Capsule", correct: true },
+                            { text: "Anterior Limb of Left Internal Capsule", correct: false },
+                            { text: "Retrolentiform Part of Right Internal Capsule", correct: false },
+                            { text: "Left Uncinate Fasciculus", correct: false }
                         ],
-                        explanation: "Lacunar strokes affecting the posterior limb (Corticospinal fibers) and genu (Corticobulbar fibers) cause pure motor hemiplegia."
+                        explanation: "Pure Motor Hemiplegia is the classic presentation of lacunar infarction involving the genu (corticobulbar fibers for face) and posterior limb (corticospinal fibers for arm and leg) of the internal capsule."
+                    },
+                    {
+                        title: "Case 3.2: Homonymous Hemianopia & Retrolentiform Lesion",
+                        scenario: "Following an intracerebral hemorrhage, a patient presents with loss of vision in the left half of the visual field in both eyes (Left Homonymous Hemianopia). The motor system and somatic sensation remain intact.",
+                        options: [
+                            { text: "Retrolentiform Part of Right Internal Capsule", correct: true },
+                            { text: "Anterior Limb of Right Internal Capsule", correct: false },
+                            { text: "Genu of Left Internal Capsule", correct: false },
+                            { text: "Sublentiform Part of Left Internal Capsule", correct: false }
+                        ],
+                        explanation: "The Retrolentiform Part of the internal capsule contains optic radiation fibers extending from the Lateral Geniculate Body to the primary visual cortex. Lesions here cause contralateral homonymous hemianopia."
+                    },
+                    {
+                        title: "Case 3.3: Sublentiform Part & Auditory Pathway",
+                        scenario: "A localized stroke involving deep temporal fibers compromises the inferior auditory radiation extending from the Medial Geniculate Body to the Superior Temporal Gyrus. Which part of the internal capsule is involved?",
+                        options: [
+                            { text: "Sublentiform Part", correct: true },
+                            { text: "Anterior Limb", correct: false },
+                            { text: "Genu", correct: false },
+                            { text: "Retrolentiform Part", correct: false }
+                        ],
+                        explanation: "The Sublentiform Part passes below the lentiform nucleus and carries the auditory radiation from the medial geniculate body to the primary auditory cortex (Brodmann areas 41 & 42)."
                     }
                 ],
                 cards: [
-                    { front: "Which part of the internal capsule contains Corticobulbar fibers?", back: "The Genu." },
-                    { front: "Which part carries the main Corticospinal tract?", back: "The Posterior Limb." }
+                    { front: "Which blood vessels supply the Internal Capsule and are prone to hypertensive rupture?", back: "Lenticulostriate arteries (branches of the Middle Cerebral Artery)." },
+                    { front: "Which nerve fibers pass through the Genu of the Internal Capsule?", back: "Corticobulbar (Corticonuclear) fibers." },
+                    { front: "What forms the medial boundary of the Posterior Limb of the Internal Capsule?", back: "The Thalamus." }
+                ]
+            },
+            lec4: {
+                title: "Functional Cortical Areas",
+                summary: [
+                    "<b>Frontal Lobe:</b> Primary Motor Cortex (Area 4, Precentral Gyrus), Premotor Cortex (Area 6), Frontal Eye Field (Area 8), Broca's Motor Speech Area (Areas 44, 45 in dominant hemisphere).",
+                    "<b>Parietal Lobe:</b> Primary Somatosensory Cortex (Areas 3, 1, 2, Postcentral Gyrus), Sensory Association Area (Areas 5, 7).",
+                    "<b>Temporal Lobe:</b> Primary Auditory Cortex (Areas 41, 42, Heschl's Gyrus), Wernicke's Sensory Speech Area (Area 22 in dominant hemisphere).",
+                    "<b>Occipital Lobe:</b> Primary Visual Cortex (Area 17, Calcarine Sulcus), Visual Association Cortex (Areas 18, 19)."
+                ],
+                cases: [
+                    {
+                        title: "Case 4.1: Expressive (Broca's) Aphasia",
+                        scenario: "A 54-year-old man exhibits non-fluent, laborious speech consisting of short, broken phrases with loss of grammatical structure (telegraphic speech). He is frustrated because he understands everything spoken to him but cannot articulate sentences.",
+                        options: [
+                            { text: "Broca's Area (Brodmann Areas 44, 45 - Inferior Frontal Gyrus)", correct: true },
+                            { text: "Wernicke's Area (Brodmann Area 22 - Superior Temporal Gyrus)", correct: false },
+                            { text: "Primary Visual Cortex (Brodmann Area 17)", correct: false },
+                            { text: "Postcentral Gyrus (Brodmann Areas 3, 1, 2)", correct: false }
+                        ],
+                        explanation: "Broca's Aphasia (Expressive Aphasia) is caused by damage to Brodmann areas 44 and 45 in the inferior frontal gyrus of the dominant hemisphere. Comprehension remains intact, but motor speech execution is severely impaired."
+                    },
+                    {
+                        title: "Case 4.2: Wernicke's Receptive Aphasia",
+                        scenario: "A 69-year-old stroke patient speaks rapidly and effortlessly, but her speech is completely devoid of meaning and filled with made-up words (neologisms). She is unaware of her deficit and cannot follow verbal commands.",
+                        options: [
+                            { text: "Wernicke's Area (Brodmann Area 22 - Superior Temporal Gyrus)", correct: true },
+                            { text: "Precentral Gyrus (Brodmann Area 4)", correct: false },
+                            { text: "Frontal Eye Field (Brodmann Area 8)", correct: false },
+                            { text: "Primary Somatosensory Area (Brodmann Area 1, 2, 3)", correct: false }
+                        ],
+                        explanation: "Wernicke's Aphasia (Receptive Aphasia) results from damage to Brodmann Area 22 in the posterior superior temporal gyrus of the dominant hemisphere. Auditory comprehension is lost, leading to fluent 'word salad'."
+                    },
+                    {
+                        title: "Case 4.3: Contralateral Hemineglect",
+                        scenario: "Following an arterial stroke, a patient completely ignores the left side of his body and environment. He shaves only the right side of his face and draws clock faces with numbers crammed onto the right side only.",
+                        options: [
+                            { text: "Non-dominant (Right) Parietal Lobe (Areas 5, 7)", correct: true },
+                            { text: "Primary Auditory Cortex (Areas 41, 42)", correct: false },
+                            { text: "Occipital Pole (Area 17)", correct: false },
+                            { text: "Broca's Area (Area 44)", correct: false }
+                        ],
+                        explanation: "Spatial hemineglect typically occurs following damage to the non-dominant (usually right) posterior parietal cortex, which is responsible for spatial attention to the contralateral visual and physical environment."
+                    }
+                ],
+                cards: [
+                    { front: "Where is the Primary Motor Cortex located and what is its Brodmann area?", back: "Precentral Gyrus of Frontal Lobe (Brodmann Area 4)." },
+                    { front: "Which cortical area is represented by Brodmann Area 17?", back: "Primary Visual Cortex (located along the walls of the Calcarine Sulcus)." },
+                    { front: "What deficit occurs with damage to Frontal Eye Field (Area 8)?", back: "Inability to perform voluntary conjugate gaze to the opposite side." }
+                ]
+            },
+            lec5: {
+                title: "Ventricular System & CSF Circulation",
+                summary: [
+                    "<b>Ventricular System:</b> Two Lateral Ventricles (telencephalon), Third Ventricle (diencephalon), Fourth Ventricle (hindbrain).",
+                    "<b>CSF Flow Path:</b> Choroid Plexus -> Lateral Ventricles -> Interventricular Foramen of Monro -> Third Ventricle -> Cerebral Aqueduct of Sylvius -> Fourth Ventricle -> Foramina of Luschka & Magendie -> Subarachnoid Space -> Arachnoid Granulations -> Superior Sagittal Sinus.",
+                    "<b>Hydrocephalus Types:</b> <i>Non-communicating (Obstructive):</i> Blockage within ventricular system (e.g., Aqueductal stenosis). <i>Communicating:</i> Impaired CSF reabsorption in subarachnoid space/granulations."
+                ],
+                cases: [
+                    {
+                        title: "Case 5.1: Non-Communicating Hydrocephalus",
+                        scenario: "An infant presents with progressive enlargement of the head, bulging fontanelles, and 'setting-sun' eyes. MRI reveals marked dilation of both lateral ventricles and the third ventricle, but the fourth ventricle remains normal in size.",
+                        options: [
+                            { text: "Stenosis of Cerebral Aqueduct of Sylvius", correct: true },
+                            { text: "Obstruction of Foramen of Magendie", correct: false },
+                            { text: "Thrombosis of Superior Sagittal Sinus", correct: false },
+                            { text: "Atrophy of Arachnoid Granulations", correct: false }
+                        ],
+                        explanation: "Aqueductal Stenosis blocks CSF flow between the 3rd and 4th ventricles. This causes obstructive hydrocephalus upstream with dilation of the 3rd and lateral ventricles while the 4th ventricle remains non-dilated."
+                    },
+                    {
+                        title: "Case 5.2: Subarachnoid Hemorrhage & Communicating Hydrocephalus",
+                        scenario: "A 50-year-old patient survives a rupture of an anterior communicating artery aneurysm. Weeks later, she develops progressive gait ataxia, urinary incontinence, and dementia (Normal Pressure Hydrocephalus).",
+                        options: [
+                            { text: "Fibrosis / Impaired reabsorption at Arachnoid Granulations", correct: true },
+                            { text: "Occlusion of Foramen of Monro", correct: false },
+                            { text: "Hypersecretion by Choroid Plexus", correct: false },
+                            { text: "Spinal Cord Transection", correct: false }
+                        ],
+                        explanation: "Blood in the subarachnoid space irritates and clogs the arachnoid granulations, leading to impaired CSF reabsorption and resulting in Communicating Hydrocephalus."
+                    },
+                    {
+                        title: "Case 5.3: CSF Leak & Low-Pressure Headache",
+                        scenario: "Following a lumbar puncture procedure, a patient develops severe positional occipital headache that worsens dramatically when standing upright and completely resolves when lying flat.",
+                        options: [
+                            { text: "Persistent CSF leakage through dural puncture site", correct: true },
+                            { text: "Acute bacterial meningitis", correct: false },
+                            { text: "Aqueductal stenosis", correct: false },
+                            { text: "Thrombosis of Internal Jugular Vein", correct: false }
+                        ],
+                        explanation: "Intracranial hypotension (Low CSF pressure) due to persistent CSF leak causes sagging of the brain and traction on pain-sensitive meningeal structures upon standing."
+                    }
+                ],
+                cards: [
+                    { front: "What connects the Lateral Ventricles to the Third Ventricle?", back: "Interventricular Foramen of Monro." },
+                    { front: "Name the midline outlet of the Fourth Ventricle into the Subarachnoid Space.", back: "Foramen of Magendie (Median aperture)." },
+                    { front: "Where is the majority of Cerebrospinal Fluid (CSF) reabsorbed?", back: "Arachnoid Granulations into the Superior Sagittal Sinus." }
                 ]
             }
         };
 
-        let currentLec = 'lec1';
-        let currentMode = 'summary';
+        let currentLecKey = 'lec1';
+        let currentDisplayMode = 'summary';
 
-        function selectLecture(lecKey) {
-            currentLec = lecKey;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        function selectLec(key) {
+            currentLecKey = key;
+            document.querySelectorAll('.lec-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            render();
+            renderView();
         }
 
         function setMode(mode) {
-            currentMode = mode;
+            currentDisplayMode = mode;
             document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${mode}`).classList.add('active');
-            render();
+            renderView();
         }
 
         function switchView(view) {
@@ -519,7 +668,7 @@
             if (view === 'flashcards') setMode('cards');
         }
 
-        function checkAnswer(btn, isCorrect, expText) {
+        function verifyAnswer(btn, isCorrect) {
             const parent = btn.parentElement;
             const buttons = parent.querySelectorAll('.option-btn');
             buttons.forEach(b => b.disabled = true);
@@ -534,54 +683,54 @@
             expBox.style.display = 'block';
         }
 
-        function render() {
+        function renderView() {
             const container = document.getElementById('content-area');
-            const data = nssData[currentLec];
+            const lecData = nssFullData[currentLecKey];
 
-            if (currentMode === 'summary') {
+            if (currentDisplayMode === 'summary') {
                 container.innerHTML = `
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-title">${data.title} - Overview</span>
-                            <span class="badge">Theory</span>
+                            <span class="card-title">${lecData.title} - High-Yield Notes</span>
+                            <span class="badge">Core Theory</span>
                         </div>
                         <ul style="padding-left: 20px; line-height: 1.8;">
-                            ${data.summary.map(item => `<li style="margin-bottom: 12px;">${item}</li>`).join('')}
+                            ${lecData.summary.map(item => `<li style="margin-bottom: 14px; font-size: 14.5px;">${item}</li>`).join('')}
                         </ul>
                     </div>
                 `;
-            } else if (currentMode === 'cases') {
-                container.innerHTML = data.cases.map((c, i) => `
+            } else if (currentDisplayMode === 'cases') {
+                container.innerHTML = lecData.cases.map((c) => `
                     <div class="card">
                         <div class="case-box">
                             <div class="case-title"><i class="fa-solid fa-stethoscope"></i> ${c.title}</div>
-                            <p style="font-size: 14px; color: var(--text-secondary);">${c.scenario}</p>
+                            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">${c.scenario}</p>
                         </div>
                         <div class="options-list">
                             ${c.options.map(opt => `
-                                <button class="option-btn" onclick="checkAnswer(this, ${opt.correct})">
-                                    ${opt.text}
+                                <button class="option-btn" onclick="verifyAnswer(this, ${opt.correct})">
+                                    <span>${opt.text}</span>
                                     <i class="fa-regular fa-circle"></i>
                                 </button>
                             `).join('')}
                         </div>
                         <div class="explanation">
-                            <b>Explanation:</b> ${c.explanation}
+                            <b>Anatomical Explanation:</b> ${c.explanation}
                         </div>
                     </div>
                 `).join('');
-            } else if (currentMode === 'cards') {
+            } else if (currentDisplayMode === 'cards') {
                 container.innerHTML = `
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                        ${data.cards.map(card => `
+                    <div class="flashcard-grid">
+                        ${lecData.cards.map(card => `
                             <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
                                 <div class="flashcard">
                                     <div class="card-front">
-                                        <p style="font-weight:600;">${card.front}</p>
-                                        <span style="font-size:12px; color: var(--text-muted); margin-top:16px;">Click to flip</span>
+                                        <p style="font-weight:600; font-size: 14.5px;">${card.front}</p>
+                                        <span style="font-size:11px; color: var(--text-muted); margin-top:16px;">Click card to flip</span>
                                     </div>
                                     <div class="card-back">
-                                        <p style="font-weight:600;">${card.back}</p>
+                                        <p style="font-weight:600; font-size: 14px;">${card.back}</p>
                                     </div>
                                 </div>
                             </div>
@@ -591,8 +740,8 @@
             }
         }
 
-        // Initial Load
-        render();
+        // Initialize First View
+        renderView();
     </script>
 </body>
 </html>
