@@ -1,629 +1,435 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NSS 201 - Complete Neuroanatomy Clinical Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-primary: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --accent-color: #2563eb;
-            --accent-hover: #1d4ed8;
-            --accent-light: #eff6ff;
-            --border-color: #e2e8f0;
-            --success: #10b981;
-            --success-bg: #dcfce7;
-            --danger: #ef4444;
-            --danger-bg: #fee2e2;
-            --warning-bg: #fef9c3;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --radius-md: 8px;
-            --radius-lg: 12px;
-        }
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hospital Shift</title>
+<!--
+  Hospital Shift: a study game for medical students. Single file, no build step.
+  Add a ward: add an object to the WARDS array with {n, d, c:[lightAccent, darkAccent], C, L}.
+  In every question the FIRST option is the correct one; the game shuffles them.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF0F2;--ink:#17303B;--card:#fff;--line:#C5D2D8;--teal:#167A78;--bad:#B93A36;--ok:#1E7A45;--mute:#58737F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#10202A;--ink:#E3EEF2;--card:#19303C;--line:#2B4553;--bad:#F07A74;--ok:#6CCB92;--mute:#93AEBA}.btn{color:#10201A!important}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Bricolage Grotesque',system-ui,sans-serif}
+#app{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:30px;font-weight:800;line-height:1.1;margin:8px 0 4px}h2{font-size:21px;margin:4px 0 8px}
+p{margin:6px 0}.mute{color:var(--mute);font-size:14px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.rep{font-weight:800;color:var(--teal)}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:600;width:100%;margin-top:10px}
+.btn:disabled{opacity:.4;cursor:default}.ghost{background:none!important;color:var(--ink)!important;border:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+.case{display:flex;justify-content:space-between;width:100%;text-align:left;align-items:center;gap:8px}
+.ward{border-left:6px solid var(--c)}
+.ord{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.ord button{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:left;font-size:14px}
+.ord button.u{border-color:var(--teal);background:none;color:var(--teal)}.ord button:disabled:not(.u){opacity:.4}
+.find{border-left:4px solid var(--teal);background:var(--card);padding:8px 12px;margin:8px 0;border-radius:0 10px 10px 0}
+.find b{display:block;font-size:13px;color:var(--teal)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin:7px 0}
+.opt.s{border:2px solid var(--teal);padding:10px 11px}.opt.ok{border:2px solid var(--ok)}.opt.no{border:2px solid var(--bad)}
+.tag{font-weight:800}.good{color:var(--ok)}.badc{color:var(--bad)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:7px 0}
+summary{font-weight:600;cursor:pointer}details p{font-size:15px}
+</style></head><body><div id="app"></div>
+<script>
+const WARDS=[
+{n:'Neuro Ward 1',d:'White matter, basal nuclei, internal capsule',c:['#167A78','#4DBFB8'],F:[["Three types of white matter fibres?", "Association (same hemisphere), commissural (between hemispheres), projection (cortex to lower centres and back)."], ["Corpus callosum: size and parts?", "About 10 cm, 100 million fibres, C-shaped. Rostrum, genu, body (trunk), splenium."], ["Which part of the corpus callosum forms the forceps minor? The forceps major and tapetum?", "Genu forms the forceps minor. Splenium forms the forceps major and tapetum."], ["Uncinate fasciculus connects?", "Orbital gyri of the frontal lobe to the temporal pole (long association fibre)."], ["Arcuate fasciculus?", "Short association fibre hooking around the sulcus; in the dominant hemisphere it links the two language areas."], ["Shape and parts of the internal capsule?", "V-shaped projection bundle: anterior limb, genu, posterior limb, plus sublentiform and retrolentiform parts."], ["Anterior limb: boundaries and fibres?", "Between head of caudate and lentiform nucleus. Frontopontine fibres + anterior thalamic radiation."], ["Genu: fibres and blood supply?", "Corticobulbar (corticonuclear) fibres. Recurrent artery of Heubner or direct branches of the ICA."], ["Posterior limb: fibres?", "Corticospinal, superior thalamic radiation (sensory), corticorubral, parieto-pontine."], ["Retrolentiform part carries?", "Optic radiation + parieto-occipito-pontine fibres."], ["Sublentiform part carries?", "Auditory radiation + temporopontine fibres."], ["Artery of cerebral haemorrhage?", "Lateral striate branch of the middle cerebral artery (Charcot's artery)."], ["Internal capsule lesion gives?", "Contralateral hemiplegia including the face, plus contralateral loss of all somatic sensation."], ["Lentiform nucleus vs striatum?", "Lentiform = putamen + globus pallidus. Striatum = caudate + putamen."], ["Which part of the corpus striatum is efferent?", "Globus pallidus (the striatum receives)."], ["Corpus striatum damage signs?", "Rigidity, loss of associated movements, resting tremor, no paralysis."], ["Chorea, athetosis, hemiballismus?", "Chorea: jerky, irregular. Athetosis: slow writhing, distal. Hemiballismus: violent flinging of one side."]],...(()=>{const C=[
+{n:"Mr. Hamdy, 62",c:"Collapsed mid-argument. Severe headache, vomiting, then could not move his left side.",
+o:[["History","Hypertensive for years, poorly treated. BP now 220/120. Headache came first, then collapse."],
+["Motor exam","Left arm, left leg and the left side of the face are paralysed. Right side normal."],
+["Sensory exam","Left side: pain, temperature, touch and position sense all lost, face included."],
+["Vision & hearing","Visual fields full. Hearing normal both sides."],
+["CT head","Fresh blood deep in the right hemisphere, wedged between the thalamus and the lentiform nucleus, reaching the bend of the V."],
+["Speech & smell","Speech fluent, comprehension normal, smell normal."]],
+h:"Face, arm AND leg, plus every sensory modality, all on one side. Think of the one place where motor and sensory fibres run together in a tight V.",
+q1:["Where is the lesion?",["Right internal capsule: genu and posterior limb","Right internal capsule: anterior limb only","Right internal capsule: retrolentiform part","Left internal capsule: posterior limb","Right corpus callosum, body","Right caudate nucleus only"]],
+q2:["Which vessel most likely bled?",["Lateral striate branch of the middle cerebral artery (Charcot's artery)","Recurrent artery of Heubner","Medial striate branch of the anterior cerebral artery","Anterior choroidal artery","Posterior communicating artery"]],
+f:"Contralateral hemiplegia including the face (corticobulbar fibres in the genu + corticospinal in the posterior limb) plus loss of all somatosensation (superior thalamic radiation) points to the internal capsule opposite the deficit. The artery of cerebral haemorrhage is a lateral striate branch of the MCA."},
+{n:"Mrs. Nadia, 58",c:"Two days of 'missing things' on her right. Bumps into door frames. No headache, no fall.",
+o:[["History","Not clumsy with her hands. She simply does not see people approaching from the right."],
+["Motor exam","Power 5/5 all four limbs. Gait normal. Face symmetrical."],
+["Sensory exam","All modalities intact."],
+["Visual fields","Right homonymous hemianopia."],
+["Hearing","Whisper and tuning fork normal on both sides."],
+["MRI","Small infarct in the left internal capsule, behind the lentiform nucleus. Thalamus and lentiform nucleus spared."]],
+h:"No weakness, no sensory loss. One special sense is lost. Which part of the capsule is behind the lentiform nucleus?",
+q1:["Where is the lesion?",["Left retrolentiform part of the internal capsule","Left sublentiform part of the internal capsule","Left posterior limb of the internal capsule","Left genu of the internal capsule","Right retrolentiform part of the internal capsule","Left anterior limb of the internal capsule"]],
+q2:["Which fibres carry the lost function through this part?",["Optic radiation (with parieto-occipito-pontine fibres)","Auditory radiation (with temporo-pontine fibres)","Superior thalamic (sensory) radiation","Corticobulbar fibres","Frontopontine fibres"]],
+f:"Retrolentiform part: optic radiation + parieto-occipito-pontine fibres. The sublentiform part (below the lentiform nucleus) carries the auditory radiation + temporo-pontine fibres, and her hearing was normal, so it is not that."},
+{n:"Mr. Farouk, 70",c:"His wife says his face has gone blank and he no longer swings his arms when he walks.",
+o:[["History","Months of slowly worsening stiffness. Handwriting getting smaller."],
+["Gait & posture","Stooped, short shuffling steps. Arms flexed at elbows and wrists, hips and knees slightly flexed."],
+["Tone & tremor","Rigid on passive movement. Hand tremor at rest, easing on purposeful movement."],
+["Power","Full power in all limbs. No paralysis."],
+["Sensory exam","Sensation normal throughout."],
+["MRI","No haemorrhage or infarct in the internal capsule. Changes involve the deep grey masses beside the lateral ventricles."]],
+h:"Rigidity, rest tremor, lost automatic movements, and NO paralysis. The pyramidal pathway is fine.",
+q1:["Which structure is primarily affected?",["Basal nuclei (corpus striatum)","Posterior limb of the internal capsule","Genu of the internal capsule","Body of the corpus callosum","Corona radiata","Amygdaloid nucleus"]],
+q2:["Which statement about the corpus striatum is correct?",["Caudate + putamen receive; globus pallidus is the efferent (outflow) part","Globus pallidus receives from the cortex; putamen is the outflow part","Caudate nucleus and putamen together form the lentiform nucleus","Claustrum is the outflow centre of the striatum","Amygdaloid body forms the pale medial part of the lentiform nucleus"]],
+f:"Damage to the corpus striatum gives rigidity, loss of automatic associated movements (facial expression, arm swing) and resting tremor. Lentiform nucleus = putamen + globus pallidus. Striatum (caudate + putamen) is the receptive part."},
+{n:"Mr. Tarek, 49",c:"Right-handed. Three days after a left hemisphere stroke: 'I understand everything, but I can't repeat what you say.'",
+o:[["History","Speaks fluently and naturally. Frustrated only when asked to repeat."],
+["Language testing","Fluent speech. Comprehension intact. Repetition of phrases severely impaired."],
+["Motor exam","No weakness. Face symmetrical."],
+["Sensory exam","Normal."],
+["MRI","Small lesion in white matter arching around the posterior lateral sulcus of the left hemisphere. Both language cortices look intact."],
+["Vision & smell","Visual fields full. Smell intact."]],
+h:"Both language areas are intact. The wire between them is cut.",
+q1:["Which bundle is damaged?",["Arcuate fasciculus (dominant hemisphere)","Uncinate fasciculus","Cingulum","Inferior longitudinal fasciculus","Anterior commissure","Fronto-occipital fasciculus"]],
+q2:["What class of fibre is this?",["Short association fibre","Long association fibre","Commissural fibre","Corticofugal projection fibre","Corticopetal projection fibre"]],
+f:"The arcuate fasciculus hooks around the sulcus and, in the dominant hemisphere, links the two major language areas. Lecture classification: a short (arcuate) association fibre, not a long one."},
+{n:"Ms. Salma, 54",c:"Three months of headaches. Neurosurgery wants to know exactly which part of the great commissure is involved.",
+o:[["History","No weakness, no seizures, no personality change."],
+["Neuro exam","Power and sensation normal. No lateralising signs."],
+["Sagittal MRI","Mass in the thickest end of the C-shaped band, bulging backwards."],
+["Axial MRI","Tumour spreads toward both occipital poles in a pincer pattern."],
+["Ventricles","Distortion of the roof and lateral wall of the posterior horns."],
+["Smell & amygdala","Normal. Anterior commissure region clear."]],
+h:"The thickest part of the corpus callosum is not the genu.",
+q1:["Which part is involved?",["Splenium","Genu","Rostrum","Body (trunk)","Anterior commissure","Hippocampal commissure"]],
+q2:["Which structures arise from this part?",["Tapetum and forceps major","Forceps minor","Floor of the anterior horns (rostrum)","Septum pellucidum and fornix","Stalk of the pineal gland"]],
+f:"Splenium: thickest, posterior end. Fibres go laterally then down as the tapetum (roof and lateral wall of the posterior horn, lateral wall of the inferior horn) and backwards as the forceps major. Genu gives the forceps minor."},
+{n:"Mrs. Layla, 66 (boss case)",c:"Sudden right facial droop and slurred speech. 'My tongue feels heavy.' Arms and legs feel normal.",
+o:[["History","Sudden onset, no headache. Diabetic and hypertensive."],
+["Motor exam","Right lower face and tongue weak. Arm and leg power normal."],
+["Sensory exam","Normal, face included."],
+["Vision & hearing","Normal."],
+["MRI","Tiny left infarct exactly at the angle where the anterior and posterior limbs meet."],
+["Angiography","Main cerebral arteries patent. Small perforator disease near the carotid terminus."]],
+h:"Cranial nerve nuclei are the target here, not the limbs. Which part of the V holds the corticonuclear fibres?",
+q1:["Where is the lesion?",["Left genu of the internal capsule","Right genu of the internal capsule","Left posterior limb","Left anterior limb","Left sublentiform part","Left retrolentiform part"]],
+q2:["What supplies this part?",["Recurrent artery of Heubner or direct branches of the internal carotid","Lateral striate branches of the middle cerebral artery","Anterior choroidal artery","Medial striate branches of the anterior cerebral artery","Posterior cerebral artery"]],
+f:"Genu: corticobulbar (corticonuclear) fibres. Blood supply: recurrent artery of Heubner or direct branches from the internal carotid. Anterior limb = medial + lateral striate; posterior limb = lateral striate + anterior choroidal."}];
+const L=[["White matter: 3 types","Association (same hemisphere): short/arcuate hook around sulci; long = uncinate (orbital gyri to temporal pole), cingulum (cingulate gyrus to hippocampus), superior longitudinal (largest), fronto-occipital, inferior longitudinal. Commissural (between hemispheres): anterior, posterior, hippocampal, habenular, corpus callosum. Projection: cortex to lower centres (corticofugal) and back (corticopetal)."],
+["Corpus callosum","About 10 cm, 100 million fibres, C-shaped, roof of lateral ventricle. Rostrum (floor of anterior horns), genu (forceps minor), body, splenium (thickest: tapetum + forceps major)."],
+["Other commissures","Anterior: olfactory bulbs, anterior perforated substance, piriform lobes, amygdaloid bodies. Posterior: pretectal nuclei. Habenular: habenular nuclei. Hippocampal: between fornix crura."],
+["Internal capsule","V-shaped bundle of projection fibres, continuous with corona radiata above and crus cerebri below. Anterior limb (between caudate head and lentiform): frontopontine + anterior thalamic radiation. Genu: corticobulbar. Posterior limb (thalamus to lentiform): corticospinal, superior thalamic radiation, corticorubral, parieto-pontine. Sublentiform: auditory radiation + temporopontine. Retrolentiform: optic radiation + parieto-occipito-pontine."],
+["Arterial supply","Striate arteries from MCA and ACA. Anterior limb: medial striate (ACA) + lateral striate (MCA). Genu: recurrent artery of Heubner or ICA branches. Posterior limb: lateral striate (MCA) + anterior choroidal. Charcot's artery = a lateral striate branch of the MCA."],
+["Capsule lesion","Contralateral hemiplegia including the face, plus loss of all somatosensation on the opposite side including the face."],
+["Basal nuclei","Caudate (head, body, tail), lentiform (putamen + globus pallidus), amygdaloid, claustrum. Striatum = caudate + putamen (receptive); globus pallidus = efferent. Damage: rigidity, lost associated movements, resting tremor. Chorea (jerky, irregular), athetosis (slow, distal), hemiballismus (one side), Parkinsonism (tremor, rigidity, bradykinesis, stooped posture)."]];
+return {C,L}})()},
+{n:'Neuro Ward 2',d:'Cortex, ventricles, spinal cord, brainstem, cerebellum',c:['#2E7D4F','#6CCB92'],F:[["Brodmann areas: frontal lobe?", "4 primary motor, 6 premotor, 8 frontal eye field, 44/45 Broca."], ["Brodmann areas: parietal and temporal?", "3, 1, 2 primary somatosensory; 5, 7 association; 41/42 primary auditory; 22 Wernicke."], ["Primary visual cortex?", "Area 17, walls of the calcarine sulcus."], ["Broca vs Wernicke aphasia?", "Broca: non-fluent, telegraphic, comprehension intact. Wernicke: fluent, neologisms, no comprehension."], ["Right parietal lesion causes?", "Contralateral (left) hemineglect: Areas 5 and 7, non-dominant hemisphere."], ["CSF pathway in order?", "Lateral ventricles, foramen of Monro, 3rd ventricle, aqueduct of Sylvius, 4th ventricle, Luschka and Magendie, subarachnoid space."], ["Where is CSF absorbed?", "Arachnoid granulations into the superior sagittal sinus."], ["Aqueductal stenosis?", "Dilated lateral and 3rd ventricles, normal 4th: non-communicating hydrocephalus."], ["Hydrocephalus after subarachnoid bleed?", "Arachnoid granulation fibrosis: impaired absorption (communicating)."], ["Low CSF pressure headache?", "Positional, worse upright, better lying flat. CSF leak."], ["Dorsal column vs spinothalamic?", "Dorsal: fine touch, proprioception, vibration (uncrossed). Spinothalamic: pain and temperature (crosses in the anterior white commissure)."], ["Brown-S\u00e9quard syndrome?", "Ipsilateral motor and dorsal column loss, contralateral pain and temperature loss."], ["Syringomyelia?", "Cape-like loss of pain and temperature, fine touch preserved. Central cavity hits the anterior white commissure."], ["Subacute combined degeneration (B12)?", "Dorsal and lateral columns: vibration loss, spastic paraparesis, Babinski."], ["Wallenberg syndrome?", "PICA, lateral medulla: ipsilateral Horner, facial pain loss, ataxia; contralateral body pain loss."], ["Weber syndrome?", "Ventral midbrain (crus cerebri): ipsilateral CN III palsy + contralateral hemiparesis."], ["Medial medullary syndrome?", "Anterior spinal artery: ipsilateral tongue deviation, contralateral hemiparesis and dorsal column loss."], ["Cerebellar signs: which side?", "Ipsilateral to the lesion."], ["Vermis vs hemisphere lesion?", "Vermis: truncal ataxia, wide-based gait. Hemisphere: limb ataxia, intention tremor, dysmetria."], ["Cerebellar deep nuclei?", "Fastigial, globose, emboliform, dentate (largest)."]],...(()=>{const C=[
+{n:"Patient 1: Mr. Adel, 61 (cortex)",c:"Stroke yesterday. Speaks easily, but nothing he says makes sense, and he cannot follow commands.",
+o:[["Speech","Fluent speech full of invented words (neologisms). No hesitation."],
+["Comprehension","Does not understand spoken or written commands."],
+["Motor exam","Power normal. Face symmetrical."],
+["Hearing test","Pure-tone hearing intact on both sides."],
+["MRI","Infarct in the posterior superior temporal gyrus of the dominant hemisphere."],
+["Frustration","Unaware that his speech is wrong. Not distressed."]],
+h:"Fluent but meaningless, and he cannot understand. Hearing itself is fine, so the primary auditory cortex is not the answer.",
+q1:["Which area is damaged?",["Wernicke's area (Area 22)","Broca's area (Areas 44, 45)","Primary motor area 4","Premotor area 6","Frontal eye field (Area 8)","Primary somatosensory (Areas 3, 1, 2)"]],
+q2:["Which neighbouring area is the primary auditory cortex?",["Areas 41 and 42","Area 22","Area 17","Area 8","Areas 44 and 45"]],
+f:"Wernicke's receptive aphasia: posterior superior temporal gyrus, Area 22. Primary auditory cortex is Areas 41/42, and since his hearing is normal that part is spared. Contrast with Broca: non-fluent, telegraphic, intact comprehension, frustrated."},
+{n:"Patient 2: Mrs. Huda, 68 (cortex)",c:"Her family says she eats only the right half of her plate and never greets people standing on her left.",
+o:[["Eye exam","Eyes move fully. Visual fields intact on confrontation."],
+["Motor exam","No weakness."],
+["Behaviour","Denies anything is wrong. Draws only the right half of a clock."],
+["Language","Fluent, comprehends fully, repeats well."],
+["MRI","Infarct in the non-dominant (right) hemisphere, posterior to the postcentral gyrus."],
+["Sensory exam","Touch intact when tested on each side separately."]],
+h:"Not blind on the left, not weak, not aphasic. Think about spatial attention.",
+q1:["Which lobe is involved?",["Right parietal lobe","Left parietal lobe","Right occipital pole","Left frontal lobe (Broca)","Right temporal pole","Left temporal lobe (Wernicke)"]],
+q2:["Which Brodmann areas are named for this?",["Areas 5 and 7","Areas 3, 1 and 2","Area 17","Areas 41 and 42","Area 4"]],
+f:"Contralateral hemineglect: non-dominant parietal lobe (Areas 5, 7) mediates spatial attention to the opposite side. Visual fields were intact, so it is not a primary visual deficit (Area 17)."},
+{n:"Patient 3: Baby Yara, 3 months",c:"Rapidly enlarging head and sunset eyes. The scan decides which CSF pathway is blocked.",
+o:[["CT: lateral ventricles","Both markedly dilated."],
+["CT: third ventricle","Dilated."],
+["CT: fourth ventricle","Normal size and shape."],
+["Birth history","No bleeding at birth, no meningitis."],
+["Subarachnoid spaces","Not enlarged. Normal over the convexities."],
+["Pressure","Raised on lumbar puncture."]],
+h:"Follow the CSF path in order. The first normal-sized space tells you the block lies just before it.",
+q1:["Where is the block?",["Aqueduct of Sylvius (aqueductal stenosis)","Foramen of Monro","Foramina of Luschka and Magendie","Arachnoid granulations","Choroid plexus overproduction","Superior sagittal sinus"]],
+q2:["Which type of hydrocephalus?",["Non-communicating (obstructive)","Communicating","Normal pressure","Ex vacuo"]],
+f:"Pathway: lateral ventricles, Monro, 3rd ventricle, Sylvius, 4th ventricle, Luschka/Magendie, subarachnoid space, arachnoid granulations, superior sagittal sinus. A normal 4th ventricle with dilation upstream means the aqueduct. Blockage inside the ventricular system is non-communicating."},
+{n:"Patient 4: Mr. Samir, 34",c:"Stabbed in the back at T8. Examined on the ward.",
+o:[["Motor","Right leg paralysed below the lesion. Left leg normal."],
+["Vibration & position","Lost in the right leg."],
+["Pain & temperature","Lost in the LEFT leg."],
+["Light touch","Mildly reduced on the right, near-normal on the left."],
+["MRI","Right hemisection of the spinal cord."],
+["Bladder","Normal sphincter control."]],
+h:"One side loses movement and position sense. The other side loses pain and temperature.",
+q1:["Which syndrome?",["Brown-Séquard (right hemisection)","Syringomyelia","Tabes dorsalis","Subacute combined degeneration","Anterior spinal artery syndrome","Left hemisection"]],
+q2:["Why is pain lost on the OPPOSITE side?",["Spinothalamic fibres cross low, at the level of entry (anterior white commissure)","Spinothalamic fibres cross in the medulla","Pain fibres ascend uncrossed in the dorsal column","Corticospinal fibres carry pain","The cord crosses at the pyramids"]],
+f:"Ipsilateral motor loss (lateral corticospinal tract, crossed above in the medulla) plus ipsilateral loss of dorsal column modalities. Contralateral pain/temperature loss because spinothalamic fibres cross early via the anterior white commissure."},
+{n:"Patient 5: Ms. Rana, 29",c:"Burned her hand without feeling it. Examination shows a patchy sensory loss.",
+o:[["Pain & temperature","Lost across both shoulders and arms in a cape-like pattern."],
+["Light touch & vibration","Preserved everywhere."],
+["Motor","Slight hand weakness. Legs normal."],
+["MRI","Expanding fluid cavity in the centre of the cervical cord."],
+["Reflexes","Reduced in arms."],
+["Bladder","Normal."]],
+h:"What crosses near the centre of the cord, and what does not?",
+q1:["What is damaged?",["Anterior white commissure (decussating spinothalamic fibres)","Dorsal columns","Lateral corticospinal tracts","Left half of the cord","Anterior horns only","Dorsal root entry zones"]],
+q2:["Why is fine touch preserved?",["Dorsal columns run uncrossed on the outside and are spared","Fine touch crosses in the anterior white commissure","Touch fibres were untouched by chance","Fine touch uses the spinothalamic tract","Touch does not exist in the cervical cord"]],
+f:"Syringomyelia: a central cavity cuts the fibres decussating in the anterior white commissure, causing a suspended, cape-like loss of pain and temperature. Dorsal columns carry fine touch, proprioception and vibration, and they lie posteriorly and are spared."},
+{n:"Patient 6: Mr. Gamal, 57",c:"Sudden vertigo, hoarseness and trouble swallowing. Brainstem stroke suspected.",
+o:[["Face","Right-side pain and temperature loss on the face. Right ptosis and small pupil (Horner)."],
+["Body","Pain and temperature lost on the LEFT side of the body."],
+["Limbs","Right-sided ataxia. Power normal."],
+["Tongue","Midline."],
+["MRI","Infarct in the right lateral medulla."],
+["Vessel imaging","Occlusion of the vessel supplying the lateral medulla and inferior cerebellum."]],
+h:"Crossed findings: face one side, body the other.",
+q1:["Which syndrome and artery?",["Wallenberg: posterior inferior cerebellar artery (PICA)","Weber: posterior cerebral artery","Medial medullary: anterior spinal artery","Lateral pontine: AICA","Basilar tip syndrome","Wallenberg: vertebral artery tip only"]],
+q2:["Which feature fits the SAME lesion?",["Ipsilateral Horner syndrome and ataxia","Ipsilateral tongue deviation","Contralateral hemiparesis with CN III palsy","Bilateral dorsal column loss","Contralateral Horner syndrome"]],
+f:"PICA infarction: lateral medullary (Wallenberg) syndrome: ipsilateral Horner, facial pain/temp loss and ataxia, contralateral body pain/temp loss. Tongue is spared because the hypoglossal nucleus is medial."},
+{n:"Patient 7 (boss): Brainstem pair",c:"Two stroke patients, two different brainstem lesions. Decide which is which.",
+o:[["Patient A, eyes","Right eye down and out, pupil dilated, ptosis."],
+["Patient A, limbs","Left hemiparesis."],
+["Patient B, tongue","Deviates to the right."],
+["Patient B, limbs","Left hemiparesis and loss of left dorsal column modalities."],
+["MRI A","Infarct in the right ventral midbrain."],
+["MRI B","Infarct in the right medial medulla."]],
+h:"A has an oculomotor palsy. B has a hypoglossal palsy. Match each to its structures.",
+q1:["Patient B: which artery?",["Anterior spinal artery","PICA","AICA","Posterior cerebral artery","Basilar artery","Superior cerebellar artery"]],
+q2:["Patient A: where is the lesion?",["Ventral midbrain (crus cerebri), Weber syndrome","Lateral medulla","Dorsal pons","Dorsal midbrain (Parinaud)","Medial medulla","Ventral pons"]],
+f:"A is Weber syndrome: CN III fascicles + corticospinal fibres in the crus cerebri, ipsilateral CN III palsy with contralateral hemiparesis. B is medial medullary syndrome: anterior spinal artery supplying CN XII nucleus, pyramid and medial lemniscus."},
+{n:"Patient 8: Child with a midline tumour",c:"A 6-year-old with clumsy walking and morning vomiting.",
+o:[["Gait","Wide-based, staggering. Cannot sit unsupported."],
+["Limbs","Finger-to-nose normal. Rapid alternating movements normal."],
+["Eyes","Normal."],
+["MRI","Midline posterior fossa mass in the vermis (medulloblastoma)."],
+["Reflexes","Normal."],
+["Pressure","Papilloedema present."]],
+h:"The trunk is affected, not the limbs. Which part is midline?",
+q1:["Which part of the cerebellum?",["Vermis","Right hemisphere","Left hemisphere","Dentate nucleus","Flocculonodular lobe only","Anterior lobe only"]],
+q2:["If this were the RIGHT hemisphere instead, which side shows signs?",["Right, ipsilateral","Left, contralateral","Both sides equally","Opposite face only","Crossed: face right, body left"]],
+f:"Vermis lesions cause truncal ataxia with wide-based gait and spare limb coordination. Hemisphere lesions cause ipsilateral limb ataxia, intention tremor, dysmetria and adiadochokinesia. Cerebellar signs are ipsilateral to the lesion."}];
+const L=[["Cortical areas","Frontal: 4 motor, 6 premotor, 8 frontal eye field, 44/45 Broca. Parietal: 3, 1, 2 primary somatosensory; 5, 7 association. Temporal: 41/42 primary auditory, 22 Wernicke. Occipital: 17 primary visual (calcarine)."],
+["Ventricles and CSF","Lateral, Monro, 3rd, Sylvius, 4th, Luschka and Magendie, subarachnoid space, arachnoid granulations, superior sagittal sinus."],
+["Spinal pathways","Dorsal column: fine touch, proprioception, vibration. Spinothalamic: pain and temperature, crosses at the anterior white commissure. Lateral corticospinal: voluntary motor."],
+["Brainstem","Midbrain: Weber, Parinaud. Pons: abducens and facial nuclei. Medulla: Wallenberg (PICA), medial medullary (anterior spinal artery)."],
+["Cerebellum","Archicerebellum (vestibular), paleocerebellum (spinal), neocerebellum (cerebral). Deep nuclei: fastigial, globose, emboliform, dentate. Lesions: ipsilateral intention tremor, dysmetria, ataxia, adiadochokinesia."]];
+return {C,L}})()},
+{n:'Histology Lab',d:'Cilia, flagella, microvilli, cell inclusions',c:['#8A2F86','#D890D3'],F:[["Cilium shaft pattern?", "9+2: nine peripheral doublets and two central singlets."], ["Basal body pattern?", "Centriole-like: 9 peripheral triplets, no central pair (9+0)."], ["Doublet structure?", "A tubule: 13 protofilaments. B tubule: 11, sharing part of A."], ["Cilium accessory parts?", "Dynein arms, nexin bridges between doublets, radial spokes, central sheath. Rootlet and basal foot anchor the base."], ["Cilia: site and function?", "Free surface of upper respiratory tract and parts of the female genital tract. Move mucus; modified for sensing (rods, cones, olfactory)."], ["Flagellum?", "Single long motile cilium (9+2). In humans only the sperm tail."], ["Microvilli: structure?", "Finger-like, 1 to 2 micrometres, actin microfilament core, terminal web at the base."], ["Microvilli: site and function?", "Small intestine, liver, kidney. Increase surface area for absorption; structural support."], ["Cell inclusions?", "Non-living, temporary, no limiting membrane. Depend on metabolic state."], ["Four classes of inclusions?", "Stored food (glycogen, fat), pigments, crystals, secretory granules."], ["Glycogen: stain and EM?", "Best's carmine or PAS (red). EM: alpha rosettes (liver), beta single granules (muscle)."], ["Fat: stain and EM?", "Empty spaces on H&E, orange with Sudan III, black with Sudan black or osmic acid. EM: electron-dense non-membranous globules."], ["Exogenous pigments?", "Dust, carotene, minerals, tattoo marks."], ["Endogenous pigments?", "Haemoglobin, hemosiderin, melanin, lipofuscin."], ["Crystals?", "Reinke's crystals (interstitial cells of testis). Calcium oxalate and carbonate in pathological conditions."], ["Secretory granules?", "Stored protein released during cell activity."]],...(()=>{const C=[
+{n:"Specimen 1: nasal epithelium",c:"A patient with repeated chest infections. The pathologist wants to know what the hair-like surface structures are.",
+o:[["Site","Free surface of the lining of the upper respiratory tract. Many per cell."],
+["Light microscopy","Apical acidophilic striations, each linked to a deeply stained cytoplasmic body."],
+["EM: shaft","18 peripheral microtubules in 9 doublets plus 2 central singlets. Dynein arms, nexin bridges, radial spokes."],
+["EM: base","Structure like a centriole, with 9 triplets and no central pair, plus a rootlet and a basal foot."],
+["Behaviour","Rhythmic beating in one direction, spreading a thin film of mucus over the surface."],
+["Staining","Nothing stored: no PAS, no Sudan reaction."]],
+h:"Several per cell, on a mucus surface, 9+2 in the shaft. Not the sperm tail.",
+q1:["What are these projections?",["Cilia","Flagella","Microvilli","Stereo-cilia of absorptive cells","Rootlets only","Basal bodies only"]],
+q2:["What is the microtubule pattern of the BASAL body?",["9 peripheral triplets, no central microtubules (9+0)","9 peripheral doublets + 2 central singlets (9+2)","9 peripheral doublets, no central pair (9+0)","9 triplets + 2 central singlets","13 protofilaments in a single ring"]],
+f:"Cilia: many per cell, motile, 9+2 shaft. The basal body is centriole-like: 9 triplets, 0 central. Each doublet has an A tubule (13 protofilaments) and a B tubule (11), sharing a wall. The 9+2 shaft alone does not separate cilia from flagella; number per cell and site do."},
+{n:"Specimen 2: semen sample",c:"A man with reduced sperm motility. EM of the tail piece is requested.",
+o:[["Site","Tail of the sperm cell. One per cell."],
+["EM: shaft","9 peripheral doublets + 2 central singlets."],
+["Length","A single long motile process protruding from the cell body."],
+["Surface","No finger-like projections, no actin core."],
+["Staining","No PAS reaction. No lipid reaction."],
+["Rhythm","Whip-like movement that drives the whole cell forward."]],
+h:"The 9+2 pattern is shared with another structure. What separates them?",
+q1:["What is the structure?",["Flagellum","Cilium","Microvillus","Basal foot","Rootlet","Terminal web"]],
+q2:["What distinguishes it from a cilium?",["Only one per cell, long; in humans found only in sperm tails","Different microtubule pattern (9+0)","It lacks dynein arms","It is non-motile","It is made of actin filaments"]],
+f:"A flagellum is a single long motile cilium with the same 9+2 organisation. In humans it exists only in the sperm tail."},
+{n:"Specimen 3: small intestine",c:"Absorptive cells under the microscope. What is the striated apical border?",
+o:[["Site","Small intestine (also liver and kidney cells)."],
+["Light microscopy","Apical acidophilic striated border, also called the brush border."],
+["EM: shape","Finger-like projections, 1 to 2 micrometres long, covered by the cell membrane."],
+["EM: core","Core of cross-linked microfilaments, anchored in a terminal web below."],
+["Movement","The projections do not beat."],
+["Staining","No stored glycogen or fat in the border."]],
+h:"Striated apical border, but no beating. The core is not microtubules.",
+q1:["What is the structure?",["Microvilli","Cilia","Flagella","Rootlets","Secretory granules","Basal bodies"]],
+q2:["What forms the core and what is it for?",["Actin microfilaments; increase surface area for absorption","9+2 microtubules; move mucus","Intermediate filaments; organise the spindle","Actin; detoxify drugs","Dynein; propel the cell"]],
+f:"Microvilli: finger-like, actin core, terminal web. They increase surface area for absorption and give structural support. Cilia also look striated in LM but beat and have microtubules."},
+{n:"Specimen 4: liver biopsy",c:"Hepatocytes with unexplained cytoplasmic deposits. Identify the inclusion.",
+o:[["Best's carmine / PAS","Deposits stain red with Best's carmine and magenta with PAS."],
+["Sudan III","No orange staining."],
+["H&E","No empty signet-ring spaces."],
+["EM","Electron-dense rosette-shaped aggregations, non-membranous."],
+["Site","Liver cells. (Muscle cells store the same substance.)"],
+["Pigment check","No brown or yellow deposits."]],
+h:"PAS-positive and negative for Sudan. Rosette shapes in the liver.",
+q1:["What is the inclusion?",["Glycogen","Lipid droplets","Lipofuscin","Reinke's crystals","Secretory protein granules","Hemosiderin"]],
+q2:["Which EM form is this?",["Alpha particles: rosette-shaped aggregates (liver)","Beta particles: single granules (liver)","Alpha particles: single granules (muscle)","Beta particles: rosettes (muscle)","Large non-membranous globules"]],
+f:"Glycogen: red with Best's carmine, PAS-positive. EM: alpha rosettes (liver), beta single granules (muscle). It is an inclusion: non-living, temporary, no limiting membrane."},
+{n:"Specimen 5: adipose tissue",c:"Large cells look empty on the routine slide. A student says they have 'lost their contents'.",
+o:[["H&E","Empty spaces with a thin rim of cytoplasm (signet-ring appearance)."],
+["Sudan III","Orange-stained globules."],
+["Sudan black","Black deposits."],
+["EM","Electron-dense globules with no membrane around them."],
+["PAS","Negative."],
+["Site","Fat cells (also small droplets in some other cells)."]],
+h:"Empty on H&E, orange on Sudan III. Not PAS-positive.",
+q1:["What is stored?",["Lipid (fat)","Glycogen","Hemosiderin","Calcium oxalate crystals","Secretory protein","Melanin"]],
+q2:["What does it look like under EM?",["Electron-dense, non-membranous globules","Membrane-bound vacuole with clear contents","Rosette-shaped alpha particles","Single beta particles","Rod-shaped crystals"]],
+f:"Fat: empty spaces on H&E, orange with Sudan III, black with Sudan black or osmic acid. EM: electron-dense globules with no limiting membrane, which is what makes it an inclusion rather than an organelle."},
+{n:"Specimen 6 (boss): skin and testis",c:"Two slides, two deposits. Sort pigments from crystals and exogenous from endogenous.",
+o:[["Skin slide","Dark deposits in the dermis where the patient had a decorative mark made."],
+["Testis slide","Crystalline bodies inside the interstitial cells."],
+["Skin history","Deposit was introduced from outside the body."],
+["Brown cell check","Elsewhere in the skin: yellow-brown wear-and-tear granules in ageing cells."],
+["Membrane check","No limiting membrane around any of the deposits."],
+["Blood check","No haemoglobin-derived iron deposits seen."]],
+h:"Exogenous = comes from outside. Which of the four examples in the options is made by the body itself?",
+q1:["What is the skin deposit?",["Exogenous pigment (tattoo marks)","Endogenous pigment (melanin)","Endogenous pigment (hemosiderin)","Reinke's crystals","Glycogen","Lipid droplets"]],
+q2:["Which of these is an ENDOGENOUS pigment?",["Lipofuscin","Carotene","Dust particles","Tattoo ink","Reinke's crystals"]],
+f:"Exogenous: dust, carotene, minerals, tattoo marks. Endogenous: haemoglobin, hemosiderin, melanin, lipofuscin. Reinke's crystals (interstitial cells of testis) are crystals, not pigments. Calcium oxalate and carbonate crystals appear in some pathological conditions."}];
+const L=[["Cilia","Short hair-like motile processes on the free surface of epithelium (upper respiratory tract, parts of the female genital tract). LM: acidophilic apical striations + basal body. EM: basal body (9 triplets, 9+0), shaft (9 doublets + 2 central singlets, 9+2), rootlet, basal foot. Doublet: A tubule 13 protofilaments, B tubule 11. Dynein arms, nexin bridges, central sheath, radial spokes. Functions: move mucus; modified for sensing (rods and cones, olfactory epithelium)."],
+["Flagellum","Single long motile cilium, 9+2. In humans only the sperm tail."],
+["Microvilli","Finger-like projections of absorptive cells (small intestine, liver, kidney). LM: brush/striated border. EM: actin microfilament core, terminal web. Increase surface area, give support."],
+["Cell inclusions","Non-living, temporary, no limiting membrane. Depend on metabolic state. Classes: stored food, pigments, crystals, secretory granules."],
+["Glycogen and fat","Glycogen: liver and muscle, Best's carmine/PAS red. EM alpha rosettes (liver), beta single granules (muscle). Fat: signet-ring spaces on H&E, orange with Sudan III, black with Sudan black, osmic acid. EM electron-dense non-membranous globules."],
+["Pigments and crystals","Exogenous: dust, carotene, minerals, tattoo marks. Endogenous: haemoglobin, hemosiderin, melanin, lipofuscin. Crystals: Reinke's (interstitial cells of testis), calcium oxalate and carbonate (pathological). Secretory protein granules store protein for release."]];
+return {C,L}})()},
+{n:'Muscle Ward',d:'Muscular system: types, shapes, attachments, actions',c:['#C2452D','#F2907A'],F:[["Define the muscular system.", "A group of contractile fibres responsible for movement, controlled by nervous stimuli."], ["Three types of muscle?", "Cardiac, smooth (visceral), skeletal (voluntary)."], ["Cardiac muscle characters?", "Heart; involuntary; striated; large central nuclei; syncytium of anastomosing bundles; contracts as one unit; conducting tissue; autonomic supply."], ["Smooth muscle characters?", "Involuntary; non-striated; spindle-shaped; coats of viscera (peristalsis) and vessels (vasoconstriction); autonomic supply."], ["Skeletal muscle characters?", "Voluntary; red flesh; attached to skeleton; many small peripheral nuclei; somatic supply (motor and sensory)."], ["Origin vs insertion?", "Origin: usually proximal, stays fixed. Insertion: usually distal, movable."], ["Belly vs tendon?", "Belly: red, fleshy, contractile. Tendon: white, fibrous, non-contractile. Flat sheet form = aponeurosis."], ["Unipennate example?", "Flexor pollicis longus (fibres on one side of the tendon)."], ["Bipennate example?", "Dorsal interossei (fibres on both sides)."], ["Circumpennate example?", "Tibialis anterior (fibres converge on a central tendon in the axis of the muscle)."], ["Multipennate example?", "Deltoid: numerous bipennate units converging on one tendon."], ["Fusiform muscles?", "Spindle-shaped, e.g. biceps brachii."], ["Flat muscles?", "Parallel fibres, e.g. external oblique, sartorius."], ["Quadrate muscles?", "Four equal sides, e.g. rectus abdominis, thyrohyoid."], ["Convergent muscles?", "Broad origin converging to a single tendon, e.g. pectoralis major."], ["Circular muscles?", "Sphincteral, e.g. orbicularis oculi."], ["Multiheaded and multibellied?", "Biceps: 2 heads. Triceps: 3 heads. Digastric: 2 bellies."], ["Prime mover vs antagonist?", "Prime mover initiates the movement (biceps, brachialis). Antagonist opposes it (triceps)."], ["Synergist vs fixator?", "Synergist complements the prime mover (brachioradialis). Fixator stabilises the origin or the joint (shoulder muscles)."]],...(()=>{const C=[
+{n:"Specimen 1: heart biopsy",c:"A pathologist receives a tissue sample and must name the muscle type before anything else.",
+o:[["Site","Taken from the wall of the heart."],
+["Light microscopy","Cross-striated cells with large central nuclei, joined in anastomosing bundles."],
+["Behaviour","The whole tissue contracts together as one unit."],
+["Nerve supply","Autonomic. No somatic motor endplates."],
+["Voluntary control?","Cannot be contracted at will."],
+["Special tissue","Part of it is specialised to form conducting tissue."]],
+h:"Striated AND involuntary AND central nuclei. Only one type fits all three.",
+q1:["Which muscle type?",["Cardiac muscle","Skeletal muscle","Smooth muscle","Tendon (aponeurosis)","Myoepithelium","Fusiform muscle belly"]],
+q2:["Which feature separates it from skeletal muscle?",["Syncytium of anastomosing bundles that contracts as one unit","Many small peripheral nuclei","Somatic nerve supply","Attached to the skeleton","Non-striated spindle cells"]],
+f:"Cardiac muscle: heart, involuntary, striated, large central nuclei, syncytium (anastomosing bundles), contracts as one unit, conducting tissue, autonomic supply. Skeletal has many small peripheral nuclei and somatic supply."},
+{n:"Specimen 2: bowel wall",c:"A section through the wall of a hollow organ shows a smooth coat. Name it and its control.",
+o:[["Light microscopy","Non-striated, plain cells. Each cell is spindle-shaped."],
+["Arrangement","Forms coats in the walls of viscera."],
+["Behaviour","Contracts in waves that push contents along (peristalsis)."],
+["Blood vessels","Same tissue in vessel walls causes vasoconstriction."],
+["Voluntary control?","Cannot be controlled at will."],
+["Nuclei","Single nucleus per cell. No cross-striations."]],
+h:"Waves, vessels, viscera, no stripes.",
+q1:["Which muscle type?",["Smooth (visceral) muscle","Cardiac muscle","Skeletal muscle","Tendon","Fusiform skeletal muscle","Sphincteral skeletal muscle"]],
+q2:["What is its nerve supply?",["Autonomic","Somatic motor and sensory","Both somatic and autonomic equally","Purely sensory","None: it contracts on its own only"]],
+f:"Smooth muscle: involuntary, non-striated, spindle-shaped, forms coats in visceral walls, peristalsis, vasoconstriction, autonomic nerve supply."},
+{n:"Specimen 3: limb muscle",c:"Red flesh attached to the skeleton. The student must choose the correct statement about it.",
+o:[["Appearance","Red fleshy tissue, attached to bone or other structures."],
+["Light microscopy","Striated fibres with many small peripheral nuclei."],
+["Control","Contracts when the patient decides to."],
+["Nerve supply","Somatic: motor and sensory."],
+["Shape of cells","Long fibres, not spindle-shaped."],
+["Fatigue","Fatigues with sustained effort."]],
+h:"Voluntary and striated. Be careful with the exam statement about shape and fatigue.",
+q1:["Which muscle type?",["Skeletal (voluntary) muscle","Cardiac muscle","Smooth muscle","Tendon","Aponeurosis","Conducting tissue"]],
+q2:["Which statement is correct?",["Supplied by somatic nerves","Involuntary","Does not fatigue easily","Spindle-shaped cells","Contracts as one syncytial unit"]],
+f:"Skeletal muscle: voluntary, red flesh, attached to skeleton, many small peripheral nuclei, somatic nerve supply (motor and sensory). It is not involuntary and it does fatigue; spindle shape belongs to smooth muscle."},
+{n:"Specimen 4: hand muscle",c:"A hand surgeon looks at a muscle where fibres run off a central tendon like a feather.",
+o:[["Fibres","Lie on both sides of the tendon."],
+["Tendon position","Central, with fibres inserting obliquely like a feather."],
+["Site","Between the metacarpal bones."],
+["Comparison","The deltoid has many such units converging on one tendon."],
+["Comparison","Tibialis anterior has fibres converging on a tendon in the axis of the muscle."],
+["Comparison","Flexor pollicis longus has fibres on ONE side of its tendon."]],
+h:"One side = unipennate. Both sides = ? Many units = multipennate.",
+q1:["Which shape?",["Bipennate","Unipennate","Circumpennate","Multipennate","Fusiform","Quadrate"]],
+q2:["Which muscle is the lecture's example?",["Dorsal interossei","Flexor pollicis longus","Tibialis anterior","Deltoid","Biceps brachii"]],
+f:"Unipennate: flexor pollicis longus. Bipennate: dorsal interossei. Circumpennate: tibialis anterior. Multipennate: deltoid (numerous bipennate units converging on one tendon)."},
+{n:"Specimen 5: chest wall",c:"A muscle fans out from a broad origin to a single tendon near the arm.",
+o:[["Origin","Broad area on the chest."],
+["Insertion","One single tendon."],
+["Fibre pattern","Fibres converge, not parallel, not feather-like."],
+["Name","Pectoralis major."],
+["Compare: biceps","Spindle shaped, two heads of attachment."],
+["Compare: sartorius","Flat, parallel fibres."]],
+h:"Think of a fan. Not parallel, not spindle, not feather.",
+q1:["Which shape?",["Convergent","Fusiform","Flat","Quadrate","Circular (sphincteral)","Multibellied"]],
+q2:["Which pairing is correct?",["Rectus abdominis: quadrate","Biceps brachii: flat","Orbicularis oculi: convergent","External oblique: fusiform","Digastric: multiheaded with three heads"]],
+f:"Convergent: broad origin, one tendon (pectoralis major). Fusiform: spindle (biceps). Flat: parallel (external oblique, sartorius). Quadrate: four equal sides (rectus abdominis, thyrohyoid). Circular: orbicularis oculi. Multiheaded: biceps 2, triceps 3; digastric has two bellies."},
+{n:"Specimen 6: muscle anatomy",c:"A student cuts a muscle from end to end and labels each part.",
+o:[["Middle part","Red, fleshy, contractile."],
+["End part","White, fibrous, cord-like, non-contractile."],
+["Flat variant","Same white tissue forms a flat sheet."],
+["Proximal end","Remains fixed when the muscle contracts."],
+["Distal end","Movable when the muscle contracts."],
+["Nerve","Somatic supply enters the belly."]],
+h:"Red = belly. White = tendon. Fixed end = origin.",
+q1:["Which part is non-contractile?",["Tendon (or aponeurosis)","Fleshy belly","Origin only","Insertion only","Muscle fibres","Epimysium only"]],
+q2:["Which end moves on contraction?",["Insertion (usually the distal end)","Origin (usually the proximal end)","Both equally","Neither","The belly only"]],
+f:"Belly = red, contractile. Tendon = white, non-contractile: rounded cord (tendon) or flat sheet (aponeurosis). Origin: usually proximal and fixed. Insertion: usually distal and movable."},
+{n:"Specimen 7 (boss): elbow flexion",c:"A patient lifts a cup to sip. Four muscle roles are involved. Assign them.",
+o:[["Biceps and brachialis","Initiate the flexion of the elbow."],
+["Triceps","Opposes the biceps and brachialis during flexion."],
+["Brachioradialis","On the forearm, assists biceps when lifting the cup."],
+["Shoulder muscles","Stabilise the shoulder joint."],
+["Fixation","Some muscles fix the origin or the joint the prime mover acts on."],
+["Voluntary?","All are skeletal, voluntary, somatic supply."]],
+h:"Prime mover starts it. Antagonist opposes. Synergist helps. Fixator steadies.",
+q1:["What role does the triceps play here?",["Antagonist","Prime mover","Synergist","Fixator","Insertion","Origin"]],
+q2:["What role does brachioradialis play?",["Synergist","Antagonist","Prime mover","Fixator","Aponeurosis"]],
+f:"Prime movers: biceps and brachialis (elbow flexion). Antagonist: triceps. Synergist: brachioradialis (complements and assists). Fixators (stabilisers): muscles around the shoulder, fixing the origin or the joint."}];
+const L=[["Definition and types","Muscles are contractile fibres responsible for movement, controlled by nervous stimuli. Three types: cardiac, smooth (visceral), skeletal (voluntary)."],
+["Cardiac muscle","Heart. Involuntary, striated, large central nuclei, syncytium of anastomosing bundles, contracts as one unit, specialised conducting tissue, autonomic supply."],
+["Smooth muscle","Involuntary, non-striated, spindle-shaped cells. Coats of viscera: peristalsis. Vessel walls: vasoconstriction. Autonomic supply."],
+["Skeletal muscle","Voluntary, red flesh, attached to skeleton, many small peripheral nuclei, somatic supply (motor and sensory)."],
+["Attachments","Origin: usually proximal, fixed. Insertion: usually distal, movable. Belly: red fleshy contractile. Tendon: white, non-contractile, cord (tendon) or flat sheet (aponeurosis)."],
+["Shapes","Pennate: uni (flexor pollicis longus), bi (dorsal interossei), circum (tibialis anterior), multi (deltoid). Fusiform (biceps), flat (external oblique, sartorius), quadrate (rectus abdominis, thyrohyoid), convergent (pectoralis major), circular (orbicularis oculi), multiheaded or multibellied (biceps 2 heads, triceps 3, digastric 2 bellies)."],
+["Actions","Prime mover starts the movement (biceps, brachialis). Antagonist opposes (triceps). Synergist complements (brachioradialis). Fixator stabilises the origin or joint (shoulder muscles)."]];
+return {C,L}})()}
+];
+WARDS[0].L.push(["High-yield traps", "Retrolentiform = vision, sublentiform = hearing. Genu = face (corticobulbar). Hemiplegia WITH face and total sensory loss = capsule, not cord. Parkinsonism has rigidity and tremor but no paralysis. Arcuate is short, uncinate is long."]);
+WARDS[1].L.push(["High-yield traps", "Wernicke 22 is NOT primary auditory (41/42). Aqueductal stenosis = normal 4th ventricle. Brown-S\u00e9quard: motor same side, pain opposite side. Syringomyelia spares fine touch. Wallenberg spares the tongue; medial medullary hits it."]);
+WARDS[2].L.push(["High-yield traps", "Flagellum and cilium share 9+2: count and site separate them. Microvilli look striated but do not beat. Basal body is 9+0 triplets. Alpha = liver rosettes, beta = muscle singles. Reinke's crystals are NOT pigments."]);
+WARDS[3].L.push(["High-yield traps", "Skeletal is voluntary, somatic, fatigues, many peripheral nuclei; spindle shape is smooth muscle. Cardiac has CENTRAL nuclei. Bipennate = dorsal interossei; multipennate = deltoid; circumpennate = tibialis anterior. Triceps has 3 heads, digastric has 2 bellies. Brachioradialis is a synergist, not a prime mover."]);
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-primary); color: var(--text-primary); display: flex; min-height: 100vh; }
-
-        sidebar {
-            width: 280px;
-            background-color: var(--bg-card);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            z-index: 10;
-        }
-
-        .brand { padding: 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); }
-        .brand i { font-size: 24px; color: var(--accent-color); }
-        .brand h2 { font-size: 18px; font-weight: 700; }
-
-        .nav-menu { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
-        .nav-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-            border-radius: var(--radius-md); color: var(--text-secondary);
-            font-weight: 500; cursor: pointer; transition: all 0.2s ease;
-        }
-        .nav-item:hover, .nav-item.active { background-color: var(--accent-light); color: var(--accent-color); }
-
-        main { margin-left: 280px; flex-grow: 1; padding: 32px; max-width: 1200px; }
-
-        header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 26px; font-weight: 700; }
-        header p { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
-
-        .lecture-nav {
-            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px;
-            margin-bottom: 20px; border-bottom: 2px solid var(--border-color);
-        }
-
-        .lec-btn {
-            white-space: nowrap; background: var(--bg-card); border: 1px solid var(--border-color);
-            padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary);
-            cursor: pointer; border-radius: var(--radius-md); transition: all 0.2s ease;
-        }
-        .lec-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-
-        .view-switcher {
-            display: flex; gap: 8px; background-color: #e2e8f0; padding: 4px;
-            border-radius: var(--radius-md); margin-bottom: 24px; width: fit-content;
-        }
-
-        .view-btn {
-            padding: 8px 18px; border: none; background: none; border-radius: 6px;
-            font-weight: 600; font-size: 13px; color: var(--text-secondary); cursor: pointer;
-        }
-        .view-btn.active { background: var(--bg-card); color: var(--text-primary); box-shadow: var(--shadow-sm); }
-
-        .card {
-            background-color: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
-        }
-
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
-        .card-title { font-size: 18px; font-weight: 700; }
-        .badge { background-color: var(--accent-light); color: var(--accent-color); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-
-        .case-box { background-color: #f1f5f9; border-left: 4px solid var(--accent-color); padding: 16px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 16px; }
-        .case-title { font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-
-        .options-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-        .option-btn {
-            text-align: left; padding: 12px 16px; border: 1px solid var(--border-color);
-            background: var(--bg-card); border-radius: var(--radius-md); cursor: pointer;
-            font-size: 14px; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;
-        }
-        .option-btn:hover { border-color: var(--accent-color); background-color: var(--accent-light); }
-        .option-btn.correct { border-color: var(--success); background-color: var(--success-bg); color: #15803d; font-weight: 600; }
-        .option-btn.incorrect { border-color: var(--danger); background-color: var(--danger-bg); color: #b91c1c; font-weight: 600; }
-
-        .explanation { margin-top: 14px; padding: 14px; background-color: var(--warning-bg); border: 1px solid #fde047; border-radius: var(--radius-md); font-size: 13.5px; line-height: 1.6; display: none; }
-
-        .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .flashcard-container { perspective: 1000px; height: 220px; cursor: pointer; }
-        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s ease; border-radius: var(--radius-lg); }
-        .flashcard.flipped { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; border-radius: var(--radius-lg); background-color: var(--bg-card);
-            border: 1px solid var(--border-color); text-align: center;
-        }
-        .card-back { transform: rotateY(180deg); background-color: var(--accent-light); color: var(--accent-color); }
-
-        @media (max-width: 768px) {
-            sidebar { width: 70px; }
-            sidebar .brand h2, sidebar .nav-item span { display: none; }
-            main { margin-left: 70px; padding: 16px; }
-        }
-    </style>
-</head>
-<body>
-
-    <sidebar>
-        <div class="brand">
-            <i class="fa-solid fa-brain"></i>
-            <h2>NSS 201 Complete</h2>
-        </div>
-        <div class="nav-menu">
-            <div class="nav-item active" onclick="switchView('study')">
-                <i class="fa-solid fa-book-open"></i>
-                <span>Summaries</span>
-            </div>
-            <div class="nav-item" onclick="switchView('cases')">
-                <i class="fa-solid fa-user-doctor"></i>
-                <span>Clinical Cases</span>
-            </div>
-            <div class="nav-item" onclick="switchView('flashcards')">
-                <i class="fa-solid fa-layer-group"></i>
-                <span>Flashcards</span>
-            </div>
-        </div>
-    </sidebar>
-
-    <main>
-        <header>
-            <div>
-                <h1>NSS 201: All 8 Lectures Hub</h1>
-                <p>Expanded coverage: Every single lecture with high-yield clinical cases and active recall tools.</p>
-            </div>
-            <span class="badge"><i class="fa-solid fa-sun"></i> Light Theme</span>
-        </header>
-
-        <!-- All 8 Lectures Selector Bar -->
-        <div class="lecture-nav">
-            <button class="lec-btn active" onclick="selectLec('lec1')">L1: White Matter</button>
-            <button class="lec-btn" onclick="selectLec('lec2')">L2: Basal Ganglia</button>
-            <button class="lec-btn" onclick="selectLec('lec3')">L3: Internal Capsule</button>
-            <button class="lec-btn" onclick="selectLec('lec4')">L4: Cortical Areas</button>
-            <button class="lec-btn" onclick="selectLec('lec5')">L5: Ventricles & CSF</button>
-            <button class="lec-btn" onclick="selectLec('lec6')">L6: Spinal Cord Pathways</button>
-            <button class="lec-btn" onclick="selectLec('lec7')">L7: Brainstem Anatomical Nuclei</button>
-            <button class="lec-btn" onclick="selectLec('lec8')">L8: Cerebellum & Lesions</button>
-        </div>
-
-        <div class="view-switcher">
-            <button class="view-btn active" id="btn-summary" onclick="setMode('summary')">Summary & Notes</button>
-            <button class="view-btn" id="btn-cases" onclick="setMode('cases')">Clinical Cases</button>
-            <button class="view-btn" id="btn-cards" onclick="setMode('cards')">Flashcards</button>
-        </div>
-
-        <div id="content-area"></div>
-    </main>
-
-    <script>
-        const nss8Lectures = {
-            lec1: {
-                title: "L1: White Matter of Cerebrum",
-                summary: [
-                    "<b>Association Fibers:</b> Interconnect gyri within the same hemisphere. Short (Arcuate) connect adjacent gyri. Long include Uncinate, Cingulum, Superior/Inferior Longitudinal, and Fronto-occipital fasciculi.",
-                    "<b>Commissural Fibers:</b> Connect corresponding areas of left and right hemispheres (Corpus Callosum, Anterior, Posterior, Habenular, and Hippocampal commissures).",
-                    "<b>Projection Fibers:</b> Connect cerebral cortex to subcortical structures (Internal Capsule)."
-                ],
-                cases: [
-                    {
-                        title: "Case 1.1: Conduction Aphasia",
-                        scenario: "A 58-year-old female presents with fluent speech and normal comprehension, but cannot repeat simple phrases. Which fiber tract is damaged?",
-                        options: [
-                            { text: "Uncinate Fasciculus", correct: false },
-                            { text: "Arcuate Fasciculus (Superior Longitudinal)", correct: true },
-                            { text: "Corpus Callosum", correct: false }
-                        ],
-                        explanation: "Arcuate fasciculus connects Wernicke's and Broca's areas. Damage causes repetition deficits."
-                    },
-                    {
-                        title: "Case 1.2: Alexia Without Agraphia",
-                        scenario: "A patient can write sentences voluntarily but cannot read what they wrote. MRI shows left PCA infarction involving the posterior corpus callosum.",
-                        options: [
-                            { text: "Rostrum", correct: false },
-                            { text: "Splenium of Corpus Callosum", correct: true },
-                            { text: "Genu", correct: false }
-                        ],
-                        explanation: "Splenium transfers visual information to the language center in the dominant hemisphere."
-                    },
-                    {
-                        title: "Case 1.3: Personality Changes & Disconnection",
-                        scenario: "Inappropriate social behavior and memory deficits following disruption of fibers connecting orbital gyri to the temporal pole.",
-                        options: [
-                            { text: "Uncinate Fasciculus", correct: true },
-                            { text: "Cingulum", correct: false },
-                            { text: "Inferior Longitudinal Fasciculus", correct: false }
-                        ],
-                        explanation: "Uncinate fasciculus connects the limbic temporal pole to the prefrontal orbital cortex."
-                    }
-                ],
-                cards: [
-                    { front: "Short association fibers connect?", back: "Adjacent gyri in the same hemisphere." },
-                    { front: "Largest commissure in the brain?", back: "Corpus Callosum (~100 million fibers)." }
-                ]
-            },
-            lec2: {
-                title: "L2: Basal Nuclei & Ganglia",
-                summary: [
-                    "<b>Subcortical Ganglia:</b> Caudate Nucleus, Putamen, Globus Pallidus, Subthalamic Nucleus, Substantia Nigra.",
-                    "<b>Direct Pathway:</b> Promotes voluntary movement by disinhibiting the motor thalamus.",
-                    "<b>Indirect Pathway:</b> Inhibits motor movement by increasing thalamic inhibition."
-                ],
-                cases: [
-                    {
-                        title: "Case 2.1: Parkinsonian Tremor",
-                        scenario: "A 66-year-old male exhibits resting tremor, cogwheel rigidity, and bradykinesia due to degeneration of midbrain neurons.",
-                        options: [
-                            { text: "Substantia Nigra Pars Compacta", correct: true },
-                            { text: "Caudate Nucleus", correct: false },
-                            { text: "Subthalamic Nucleus", correct: false }
-                        ],
-                        explanation: "Loss of dopaminergic neurons in Substantia Nigra causes Parkinson's disease."
-                    },
-                    {
-                        title: "Case 2.2: Violent Flinging Movement",
-                        scenario: "Sudden onset of non-rhythmic, violent flinging movements of the right limbs following a subcortical stroke.",
-                        options: [
-                            { text: "Contralateral Subthalamic Nucleus", correct: true },
-                            { text: "Ipsilateral Putamen", correct: false },
-                            { text: "Globus Pallidus Externus", correct: false }
-                        ],
-                        explanation: "Subthalamic nucleus damage leads to Hemiballismus."
-                    },
-                    {
-                        title: "Case 2.3: Choreiform Movements",
-                        scenario: "Involuntary jerky movements, emotional lability, and atrophy of the lateral ventricular walls.",
-                        options: [
-                            { text: "Caudate Nucleus & Putamen Atrophy", correct: true },
-                            { text: "Subthalamic Nucleus Necrosis", correct: false },
-                            { text: "Cerebellar Atrophy", correct: false }
-                        ],
-                        explanation: "Huntington's Disease causes degeneration of striatal GABAergic neurons."
-                    }
-                ],
-                cards: [
-                    { front: "What forms the Lentiform Nucleus?", back: "Putamen + Globus Pallidus." },
-                    { front: "Hemiballismus lesion site?", back: "Contralateral Subthalamic Nucleus." }
-                ]
-            },
-            lec3: {
-                title: "L3: Internal Capsule",
-                summary: [
-                    "<b>Anatomy:</b> V-shaped white matter bundle with Anterior Limb, Genu, Posterior Limb, Retrolentiform & Sublentiform parts.",
-                    "<b>Genu:</b> Contains Corticobulbar fibers.",
-                    "<b>Posterior Limb:</b> Contains Corticospinal tract and thalamocortical sensory fibers."
-                ],
-                cases: [
-                    {
-                        title: "Case 3.1: Dense Pure Motor Stroke",
-                        scenario: "Paralysis of left lower face, arm, and leg with no sensory or visual deficits.",
-                        options: [
-                            { text: "Right Genu & Posterior Limb", correct: true },
-                            { text: "Left Anterior Limb", correct: false },
-                            { text: "Retrolentiform Part", correct: false }
-                        ],
-                        explanation: "Lacunar infarction of genu (corticobulbar) and posterior limb (corticospinal)."
-                    },
-                    {
-                        title: "Case 3.2: Homonymous Hemianopia",
-                        scenario: "Loss of vision in the contralateral hemifield following deep cerebral hemorrhage.",
-                        options: [
-                            { text: "Retrolentiform Part", correct: true },
-                            { text: "Anterior Limb", correct: false },
-                            { text: "Sublentiform Part", correct: false }
-                        ],
-                        explanation: "Retrolentiform part carries optic radiation from LGB to visual cortex."
-                    },
-                    {
-                        title: "Case 3.3: Auditory Radiation Disruption",
-                        scenario: "Localized deep temporal lesion involving auditory connections from MGB to cortex.",
-                        options: [
-                            { text: "Sublentiform Part", correct: true },
-                            { text: "Genu", correct: false },
-                            { text: "Anterior Limb", correct: false }
-                        ],
-                        explanation: "Sublentiform part carries auditory radiation underneath the lentiform nucleus."
-                    }
-                ],
-                cards: [
-                    { front: "Fibers passing through the Genu?", back: "Corticobulbar (Corticonuclear) fibers." },
-                    { front: "Artery supplying internal capsule prone to rupture?", back: "Lenticulostriate branches of MCA." }
-                ]
-            },
-            lec4: {
-                title: "L4: Functional Cortical Areas",
-                summary: [
-                    "<b>Frontal Lobe:</b> Area 4 (Primary Motor), Area 6 (Premotor), Area 8 (Frontal Eye Field), Areas 44/45 (Broca's).",
-                    "<b>Parietal Lobe:</b> Areas 3, 1, 2 (Primary Somatosensory).",
-                    "<b>Temporal Lobe:</b> Areas 41/42 (Primary Auditory), Area 22 (Wernicke's).",
-                    "<b>Occipital Lobe:</b> Area 17 (Primary Visual)."
-                ],
-                cases: [
-                    {
-                        title: "Case 4.1: Expressive Speech Deficit",
-                        scenario: "Non-fluent speech, telegraphic phrasing, intact comprehension, severe frustration.",
-                        options: [
-                            { text: "Broca's Area (Areas 44, 45)", correct: true },
-                            { text: "Wernicke's Area (Area 22)", correct: false },
-                            { text: "Primary Motor Area 4", correct: false }
-                        ],
-                        explanation: "Broca's expressive aphasia involves the left inferior frontal gyrus."
-                    },
-                    {
-                        title: "Case 4.2: Receptive Language Impairment",
-                        scenario: "Fluent speech filled with neologisms, complete lack of language comprehension.",
-                        options: [
-                            { text: "Wernicke's Area (Area 22)", correct: true },
-                            { text: "Broca's Area", correct: false },
-                            { text: "Postcentral Gyrus", correct: false }
-                        ],
-                        explanation: "Wernicke's receptive aphasia involves the posterior superior temporal gyrus."
-                    },
-                    {
-                        title: "Case 4.3: Contralateral Hemineglect",
-                        scenario: "Ignoring left side of body and environment following stroke in non-dominant cortex.",
-                        options: [
-                            { text: "Right Parietal Lobe (Areas 5, 7)", correct: true },
-                            { text: "Left Frontal Lobe", correct: false },
-                            { text: "Occipital Pole", correct: false }
-                        ],
-                        explanation: "Non-dominant parietal lobe mediates spatial attention to contralateral side."
-                    }
-                ],
-                cards: [
-                    { front: "Brodmann Area 17 location?", back: "Walls of the Calcarine Sulcus (Primary Visual Cortex)." },
-                    { front: "Frontal Eye Field location?", back: "Brodmann Area 8 (controls voluntary conjugate eye movements)." }
-                ]
-            },
-            lec5: {
-                title: "L5: Ventricular System & CSF",
-                summary: [
-                    "<b>Ventricular Anatomy:</b> Lateral Ventricles -> Foramen of Monro -> 3rd Ventricle -> Aqueduct of Sylvius -> 4th Ventricle -> Foramina of Luschka & Magendie -> Subarachnoid Space.",
-                    "<b>CSF Absorption:</b> Reabsorbed into venous circulation via Arachnoid Granulations into Superior Sagittal Sinus."
-                ],
-                cases: [
-                    {
-                        title: "Case 5.1: Infant Hydrocephalus",
-                        scenario: "Dilation of lateral and 3rd ventricles with normal 4th ventricle size.",
-                        options: [
-                            { text: "Aqueductal Stenosis", correct: true },
-                            { text: "Foramen of Monro Block", correct: false },
-                            { text: "Arachnoid Granulation Atrophy", correct: false }
-                        ],
-                        explanation: "Blockage at Aqueduct of Sylvius causes upstream non-communicating hydrocephalus."
-                    },
-                    {
-                        title: "Case 5.2: Post-Hemorrhage Hydrocephalus",
-                        scenario: "Normal Pressure Hydrocephalus weeks after subarachnoid hemorrhage.",
-                        options: [
-                            { text: "Arachnoid Granulation Fibrosis", correct: true },
-                            { text: "Aqueductal Obstruction", correct: false },
-                            { text: "Choroid Plexus Adenoma", correct: false }
-                        ],
-                        explanation: "Subarachnoid blood clogs arachnoid granulations, impairing CSF absorption."
-                    },
-                    {
-                        title: "Case 5.3: Post-LP Headache",
-                        scenario: "Severe positional headache worsening when upright and improving flat.",
-                        options: [
-                            { text: "Low CSF Pressure Leak", correct: true },
-                            { text: "Bacterial Meningitis", correct: false },
-                            { text: "Venous Sinus Thrombosis", correct: false }
-                        ],
-                        explanation: "Persistent CSF leak causes intracranial hypotension and traction headache."
-                    }
-                ],
-                cards: [
-                    { front: "Connection between Lateral and 3rd Ventricles?", back: "Interventricular Foramen of Monro." },
-                    { front: "Median aperture of 4th ventricle?", back: "Foramen of Magendie." }
-                ]
-            },
-            lec6: {
-                title: "L6: Spinal Cord Tracts & Lesions",
-                summary: [
-                    "<b>Ascending Pathways:</b> Dorsal Column (Fine touch, proprioception, vibration) & Spinothalamic Tract (Pain and temperature).",
-                    "<b>Descending Pathways:</b> Lateral Corticospinal Tract (Voluntary motor control)."
-                ],
-                cases: [
-                    {
-                        title: "Case 6.1: Brown-Séquard Syndrome",
-                        scenario: "Hemisection of spinal cord showing ipsilateral motor loss and contralateral pain/temperature loss.",
-                        options: [
-                            { text: "Brown-Séquard Hemisection", correct: true },
-                            { text: "Syringomyelia", correct: false },
-                            { text: "Tabes Dorsalis", correct: false }
-                        ],
-                        explanation: "Lateral corticospinal crosses high (ipsilateral motor loss), spinothalamic crosses low (contralateral pain loss)."
-                    },
-                    {
-                        title: "Case 6.2: Syringomyelia",
-                        scenario: "Cape-like loss of pain and temperature sensation across shoulders with preserved fine touch.",
-                        options: [
-                            { text: "Anterior White Commissure Lesion", correct: true },
-                            { text: "Dorsal Column Degeneration", correct: false },
-                            { text: "Lateral Column Infarction", correct: false }
-                        ],
-                        explanation: "Expanding central cavity disrupts decussating spinothalamic fibers."
-                    },
-                    {
-                        title: "Case 6.3: Vitamin B12 Subacute Combined Degeneration",
-                        scenario: "Loss of vibration sense, spastic paraparesis, and positive Babinski sign bilaterally.",
-                        options: [
-                            { text: "Dorsal & Lateral Columns", correct: true },
-                            { text: "Anterior Horns Only", correct: false },
-                            { text: "Spinothalamic Tracts Only", correct: false }
-                        ],
-                        explanation: "Subacute combined degeneration affects posterior and lateral columns."
-                    }
-                ],
-                cards: [
-                    { front: "Dorsal column modalities?", back: "Fine touch, conscious proprioception, vibration." },
-                    { front: "Spinothalamic crossing site?", back: "Anterior White Commissure at spinal segment level." }
-                ]
-            },
-            lec7: {
-                title: "L7: Brainstem Nuclei & Syndromes",
-                summary: [
-                    "<b>Midbrain:</b> Weber's & Parinaud's Syndromes.",
-                    "<b>Pons:</b> Abducens/Facial nerve nuclei, Medial Pontine Syndrome.",
-                    "<b>Medulla:</b> Wallenberg's (Lateral Medullary) Syndrome."
-                ],
-                cases: [
-                    {
-                        title: "Case 7.1: Wallenberg Syndrome",
-                        scenario: "Ipsilateral Horner syndrome, facial pain loss, ataxia, contralateral body pain loss.",
-                        options: [
-                            { text: "PICA Occlusion (Lateral Medulla)", correct: true },
-                            { text: "Anterior Spinal Artery Occlusion", correct: false },
-                            { text: "PCA Stroke", correct: false }
-                        ],
-                        explanation: "PICA infarction causes Lateral Medullary (Wallenberg) syndrome."
-                    },
-                    {
-                        title: "Case 7.2: Weber Syndrome",
-                        scenario: "Ipsilateral oculomotor palsy (CN III) with contralateral hemiparesis.",
-                        options: [
-                            { text: "Ventral Midbrain (Crus Cerebri)", correct: true },
-                            { text: "Lateral Medulla", correct: false },
-                            { text: "Dorsal Pons", correct: false }
-                        ],
-                        explanation: "Weber syndrome affects CN III fascicles and corticospinal fibers in crus cerebri."
-                    },
-                    {
-                        title: "Case 7.3: Medial Medullary Syndrome",
-                        scenario: "Ipsilateral tongue deviation with contralateral hemiparesis and dorsal column loss.",
-                        options: [
-                            { text: "Anterior Spinal Artery Occlusion", correct: true },
-                            { text: "PICA Stroke", correct: false },
-                            { text: "AICA Stroke", correct: false }
-                        ],
-                        explanation: "Anterior spinal artery supplies medial medulla (CN XII nucleus, pyramid, medial lemniscus)."
-                    }
-                ],
-                cards: [
-                    { front: "Artery involved in Wallenberg Syndrome?", back: "Posterior Inferior Cerebellar Artery (PICA)." },
-                    { front: "Weber Syndrome lesion location?", back: "Anteromedial Midbrain (Crus Cerebri)." }
-                ]
-            },
-            lec8: {
-                title: "L8: Cerebellum Anatomy & Lesions",
-                summary: [
-                    "<b>Subdivisions:</b> Archicerebellum (Vestibulocerebellum), Paleocerebellum (Spinocerebellum), Neocerebellum (Cerebrocerebellum).",
-                    "<b>Deep Nuclei:</b> Fastigial, Globose, Emboliform, Dentate.",
-                    "<b>Clinical Lesions:</b> Ipsilateral intention tremor, dysmetria, ataxia, adiadochokinesia."
-                ],
-                cases: [
-                    {
-                        title: "Case 8.1: Cerebellar Hemisphere Stroke",
-                        scenario: "Right-sided intention tremor, past-pointing (dysmetria), and rapid alternate movement failure.",
-                        options: [
-                            { text: "Right Cerebellar Hemisphere", correct: true },
-                            { text: "Left Cerebellar Hemisphere", correct: false },
-                            { text: "Cerebellar Vermis", correct: false }
-                        ],
-                        explanation: "Cerebellar hemisphere lesions cause ipsilateral limb ataxia and intention tremor."
-                    },
-                    {
-                        title: "Case 8.2: Midline Vermis Tumor",
-                        scenario: "Child presenting with severe truncal ataxia, wide-based gait, but normal limb coordination.",
-                        options: [
-                            { text: "Cerebellar Vermis (Medulloblastoma)", correct: true },
-                            { text: "Dentate Nucleus", correct: false },
-                            { text: "Flocculonodular Lobe", correct: false }
-                        ],
-                        explanation: "Vermis lesions cause central truncal ataxia rather than appendicular limb ataxia."
-                    },
-                    {
-                        title: "Case 8.3: Vestibulocerebellar Lesion",
-                        scenario: "Nystagmus, vertigo, loss of equilibrium with inability to maintain balance.",
-                        options: [
-                            { text: "Flocculonodular Lobe", correct: true },
-                            { text: "Anterior Lobe", correct: false },
-                            { text: "Dentate Nucleus", correct: false }
-                        ],
-                        explanation: "Flocculonodular lobe (Vestibulocerebellum) controls eye movements and vestibular balance."
-                    }
-                ],
-                cards: [
-                    { front: "Are cerebellar signs ipsilateral or contralateral?", back: "Ipsilateral to the side of the lesion." },
-                    { front: "Deepest and largest cerebellar nucleus?", back: "Dentate Nucleus." }
-                ]
-            }
-        };
-
-        let currentLecKey = 'lec1';
-        let currentDisplayMode = 'summary';
-
-        function selectLec(key) {
-            currentLecKey = key;
-            document.querySelectorAll('.lec-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderView();
-        }
-
-        function setMode(mode) {
-            currentDisplayMode = mode;
-            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${mode}`).classList.add('active');
-            renderView();
-        }
-
-        function switchView(view) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            if (view === 'study') setMode('summary');
-            if (view === 'cases') setMode('cases');
-            if (view === 'flashcards') setMode('cards');
-        }
-
-        function verifyAnswer(btn, isCorrect) {
-            const parent = btn.parentElement;
-            parent.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-            if (isCorrect) btn.classList.add('correct');
-            else btn.classList.add('incorrect');
-            parent.parentElement.querySelector('.explanation').style.display = 'block';
-        }
-
-        function renderView() {
-            const container = document.getElementById('content-area');
-            const lecData = nss8Lectures[currentLecKey];
-
-            if (currentDisplayMode === 'summary') {
-                container.innerHTML = `
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">${lecData.title}</span>
-                            <span class="badge">Notes</span>
-                        </div>
-                        <ul style="padding-left: 20px; line-height: 1.8;">
-                            ${lecData.summary.map(item => `<li style="margin-bottom: 12px;">${item}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-            } else if (currentDisplayMode === 'cases') {
-                container.innerHTML = lecData.cases.map((c) => `
-                    <div class="card">
-                        <div class="case-box">
-                            <div class="case-title"><i class="fa-solid fa-stethoscope"></i> ${c.title}</div>
-                            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">${c.scenario}</p>
-                        </div>
-                        <div class="options-list">
-                            ${c.options.map(opt => `
-                                <button class="option-btn" onclick="verifyAnswer(this, ${opt.correct})">
-                                    <span>${opt.text}</span>
-                                    <i class="fa-regular fa-circle"></i>
-                                </button>
-                            `).join('')}
-                        </div>
-                        <div class="explanation">
-                            <b>Anatomical Explanation:</b> ${c.explanation}
-                        </div>
-                    </div>
-                `).join('');
-            } else if (currentDisplayMode === 'cards') {
-                container.innerHTML = `
-                    <div class="flashcard-grid">
-                        ${lecData.cards.map(card => `
-                            <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
-                                <div class="flashcard">
-                                    <div class="card-front">
-                                        <p style="font-weight:600; font-size: 14px;">${card.front}</p>
-                                        <span style="font-size:11px; color: var(--text-muted); margin-top:16px;">Click to flip</span>
-                                    </div>
-                                    <div class="card-back">
-                                        <p style="font-weight:600; font-size: 14px;">${card.back}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-        }
-
-        renderView();
-    </script>
-</body>
-</html>
+const A=document.getElementById('app');
+const KEY='hospital-shift-best';
+let best={};try{best=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(best))}catch(e){}};
+let w=0,W,C,L,G;
+const dark=()=>matchMedia('(prefers-color-scheme: dark)').matches;
+const acc=c=>document.documentElement.style.setProperty('--teal',c);
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const mk=q=>sh(q[1].map((t,i)=>[t,i==0]));
+const bs=(wi,i)=>best[wi+':'+i];
+const wtot=wi=>WARDS[wi].C.reduce((s,_,i)=>s+(bs(wi,i)||0),0);
+function menu(){acc(dark()?'#4DBFB8':'#167A78');
+A.innerHTML=`<h1>Hospital Shift</h1><p class=mute>Pick a ward. Every case is a mystery: choose 4 of 6 tests, make your diagnosis, then answer the follow-up. No timer, no lives.</p>`+
+WARDS.map((x,wi)=>{const n=x.C.filter((_,i)=>bs(wi,i)!=null).length;return `<button class="card case ward" style="--c:${x.c[dark()?1:0]}" onclick="openWard(${wi})"><span><b>${x.n}</b><br><span class=mute>${x.d}</span></span><span class=tag>${n}/${x.C.length}</span></button>`}).join('')+
+`<p class=mute>Total reputation: <b>${WARDS.reduce((s,_,wi)=>s+wtot(wi),0)}</b></p><button class="btn ghost" onclick="if(confirm('Reset all progress?')){best={};save();menu()}">Reset progress</button><p class=mute style="text-align:center">v3: Library inside every ward</p>`}
+function openWard(i){w=i;W=WARDS[i];C=W.C;L=W.L;acc(W.c[dark()?1:0]);home()}
+function home(){const done=C.filter((_,i)=>bs(w,i)!=null).length,tot=wtot(w);
+A.innerHTML=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="menu()">All wards</button><span class=rep>Reputation ${tot}</span></div>
+<h1>${W.n}</h1><button class=btn onclick="lib()">Library: summaries + flashcards</button><p class=mute>Or play a case: pick 4 of 6 tests, then one shot at the diagnosis and one at the follow-up.</p>`+
+C.map((c,i)=>`<button class="card case" onclick="open_(${i})"><span><b>${c.n}</b><br><span class=mute>${c.c.slice(0,64)}...</span></span><span class=tag>${bs(w,i)!=null?bs(w,i)+'/100':'New'}</span></button>`).join('')+
+(done==C.length?`<div class=card><h2>Ward cleared: ${tot>=C.length*80?'Chief Resident':tot>=C.length*60?'Registrar':tot>=C.length*40?'Resident':'Intern, back to the library'}</h2><p class=mute>Total ${tot} of ${C.length*100}.</p></div>`:'')}
+function lib(){A.innerHTML=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="home()">Back</button><span class=rep>Library: ${W.n}</span></div>
+<button class=btn onclick="fc()">Practice flashcards (${W.F.length})</button>
+<h2 style="margin-top:18px">Summaries</h2>`+L.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('')+
+`<h2 style="margin-top:18px">All flashcards (tap to reveal)</h2>`+W.F.map(c=>`<details><summary>${c[0]}</summary><p>${c[1]}</p></details>`).join('')}
+let D,K,F_,fl;
+function fc(){D=sh(W.F.map((_,i)=>i));K=0;fl=false;showFC()}
+function showFC(){const tot=W.F.length;
+if(!D.length){A.innerHTML=`<h1>Deck done</h1><p>You marked ${K} of ${tot} as known on the first pass or after repeats. Nice work.</p><button class=btn onclick="fc()">Shuffle and go again</button><button class="btn ghost" onclick="home()">Back to the ward</button>`;return}
+const c=W.F[D[0]];
+A.innerHTML=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="home()">Leave</button><span class=mute>Left: <b>${D.length}</b> | Known: <b>${K}</b></span></div>
+<button class=card style="width:100%;min-height:230px;text-align:center;font-size:${fl?17:20}px;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center" onclick="fl=!fl;showFC()">${fl?c[1]:'<b>'+c[0]+'</b>'}</button>
+<p class=mute style="text-align:center">${fl?'Answer':'Tap the card to flip'}</p>`+
+(fl?`<button class=btn onclick="kn(1)">I knew it</button><button class="btn ghost" onclick="kn(0)">Again later</button>`:'')}
+function kn(ok){const i=D.shift();if(ok)K++;else D.push(i);fl=false;showFC()}
+function open_(i){G={i,u:[],s:1,sel:null,a1:null,a2:null,h:0,o1:mk(C[i].q1),o2:mk(C[i].q2)};view()}
+function ord(k){if(G.s>2||G.u.includes(k)||G.u.length>=4)return;G.u.push(k);view()}
+function hint(){G.h++;view()}
+function pick(k){G.sel=k;view()}
+function lock(){G['a'+G.s]=G.sel;G.sel=null;if(G.s==1){G.s=2;view()}else{G.s=3;fin()}}
+function view(){const c=C[G.i],left=4-G.u.length;
+let h=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="home()">Leave</button><span class=mute>Tests left: <b>${left}</b></span></div><h2>${c.n}</h2><p>${c.c}</p>`;
+h+=`<div class=ord>`+c.o.map((o,k)=>`<button class="${G.u.includes(k)?'u':''}" ${G.s>1||(!G.u.includes(k)&&!left)?'disabled':''} onclick="ord(${k})">${o[0]}</button>`).join('')+`</div>`;
+h+=G.u.map(k=>`<div class=find><b>${c.o[k][0]}</b>${c.o[k][1]}</div>`).join('');
+if(G.h)h+=`<div class=find><b>Attending (-10 reputation)</b>${c.h}</div>`;
+if(G.s==1)h+=`<button class="btn ghost" onclick="hint()" ${G.h?'disabled':''}>Ask the attending for a hint (-10)</button>`;
+const q=G.s==1?c.q1:c.q2,os=G.s==1?G.o1:G.o2;
+h+=`<h2 style="margin-top:18px">${G.s==1?'Diagnosis: ':'Follow-up: '}${q[0]}</h2>`+os.map((o,k)=>`<button class="opt ${G.sel===k?'s':''}" onclick="pick(${k})">${o[0]}</button>`).join('')+`<button class=btn ${G.sel==null?'disabled':''} onclick="lock()">Lock in answer (final)</button>`;
+A.innerHTML=h}
+function fin(){const c=C[G.i],k1=G.o1[G.a1][1],k2=G.o2[G.a2][1],left=4-G.u.length;
+let s=(k1?40:0)+(k2?40:0)+(k1?left*5:0)-G.h*10;s=Math.max(0,s);
+if(bs(w,G.i)==null||s>bs(w,G.i)){best[w+':'+G.i]=s;save()}
+const rv=(os,a)=>os.map((o,k)=>`<div class="opt ${o[1]?'ok':k==a?'no':''}" style="${o[1]||k==a?'':'opacity:.55'}">${o[0]}${o[1]?' &#10003;':k==a?' &#10007; your answer':''}</div>`).join('');
+const miss=c.o.map((o,k)=>G.u.includes(k)?'':`<div class=find><b>${o[0]} (not ordered)</b>${o[1]}</div>`).join('');
+A.innerHTML=`<h1>${s} / 100</h1><p class="tag ${k1&&k2?'good':'badc'}">${k1&&k2?'Case solved.':k1?'Right diagnosis, wrong follow-up.':'Missed diagnosis.'}</p>
+<h2>Diagnosis</h2>${rv(G.o1,G.a1)}<h2>Follow-up</h2>${rv(G.o2,G.a2)}
+<div class=card><b>Case file</b><p>${c.f}</p></div>${miss?'<h2>What you skipped</h2>'+miss:''}
+<button class=btn onclick="open_(${G.i})">Replay this case</button><button class="btn ghost" onclick="home()">Back to the ward</button>`}
+menu();
+</script></body></html>
