@@ -366,12 +366,192 @@ const L=[["Definition and types","Muscles are contractile fibres responsible for
 ["Attachments","Origin: usually proximal, fixed. Insertion: usually distal, movable. Belly: red fleshy contractile. Tendon: white, non-contractile, cord (tendon) or flat sheet (aponeurosis)."],
 ["Shapes","Pennate: uni (flexor pollicis longus), bi (dorsal interossei), circum (tibialis anterior), multi (deltoid). Fusiform (biceps), flat (external oblique, sartorius), quadrate (rectus abdominis, thyrohyoid), convergent (pectoralis major), circular (orbicularis oculi), multiheaded or multibellied (biceps 2 heads, triceps 3, digastric 2 bellies)."],
 ["Actions","Prime mover starts the movement (biceps, brachialis). Antagonist opposes (triceps). Synergist complements (brachioradialis). Fixator stabilises the origin or joint (shoulder muscles)."]];
+return {C,L}})()},
+{n:'Molecular Lab',d:'DNA replication, repair, transcription, genetic code, mutations',c:['#2F5DA8','#8DB4F2'],F:[["Define DNA replication.", "Producing two identical DNA molecules from one original molecule."], ["Characteristics of replication?", "Semiconservative, bidirectional, high fidelity, leading and lagging strands, starts at an origin (oriC)."], ["Origin of replication: prokaryote vs eukaryote?", "Prokaryote: single origin. Eukaryote: multiple origins."], ["Helicase vs SSBP vs topoisomerase?", "Helicase unwinds (ATP). SSBP prevents reannealing. Topoisomerase relieves supercoils."], ["Primase?", "An RNA polymerase making short RNA primers (about 10 nt) that give a free 3'-OH."], ["DNA polymerase III vs I?", "Pol III extends 5' to 3'. Pol I removes primers and replaces them with DNA."], ["DNA ligase?", "Seals nicks between Okazaki fragments, forming the phosphodiester bond."], ["Telomere sequence?", "TTAGGG repeats at chromosome ends."], ["Telomerase?", "Adds telomere repeats (TERT + TERC). Active in germ, stem and cancer cells."], ["Thymine dimer repair?", "Nucleotide excision repair. Defect: xeroderma pigmentosum (no UV-specific endonuclease)."], ["Cytosine deamination repair?", "Uracil-DNA glycosylase removes U, AP endonuclease cuts, polymerase fills, ligase seals."], ["Mismatch repair: strand choice?", "New strand is unmethylated at GATC; parent is methylated."], ["Double-strand break repair?", "NHEJ: quick, may add mutations. HR: accurate, uses sister chromatid, S and G2 phases."], ["Prokaryotic promoter?", "Pribnow box (TATAAT, -10) and -35 sequence; sigma factor recognises."], ["Eukaryotic promoter?", "TATA (Hogness) box about -25 and CAAT box about -70 to -80; RNA Pol II."], ["Eukaryotic RNA polymerases?", "I: large rRNAs. II: mRNA. III: tRNA and 5S rRNA."], ["Prokaryotic RNA polymerase subunits?", "Alpha (structure), beta (catalysis), beta prime (binds DNA), omega (stability), sigma (promoter recognition)."], ["Rifampin vs Actinomycin D?", "Rifampin: beta subunit, TB. Actinomycin D: binds DNA template, blocks elongation in all cells."], ["Transcription termination?", "Intrinsic: GC-rich hairpin from a palindrome. Rho-dependent: rho protein with ATP."], ["mRNA processing steps?", "5' cap (7-methylguanosine), 3' poly(A) tail, splicing of introns."], ["Start and stop codons?", "Start: AUG (Met). Stop: UAA, UAG, UGA."], ["Properties of the genetic code?", "Degenerate, non-overlapping, commaless, unambiguous, nearly universal."], ["Point mutation types?", "Silent (no change), missense (one amino acid), nonsense (premature stop)."], ["Sickle cell mutation?", "GAG to GTG: Glu to Val at position 6. Transversion, missense, partially acceptable."], ["Huntington vs myotonic dystrophy?", "Huntington: CAG repeat expansion. Myotonic dystrophy: splice-site mutation."]],...(()=>{const C=[
+{n:"Sample 1: dividing bacteria",c:"E. coli starts copying its chromosome. Follow the first steps at the origin.",
+o:[["Origin","One single origin (oriC) in prokaryotes."],
+["Recognition","DnaA protein binds oriC and melts the AT-rich region."],
+["Unwinding","An enzyme breaks hydrogen bonds between parental strands and uses 2 ATP."],
+["Protection","Single-stranded DNA is coated to prevent reannealing and nuclease attack."],
+["Supercoils","Positive supercoils build up ahead of the fork."],
+["Direction","Two forks move in opposite directions (bidirectional)."]],
+h:"The enzyme that opens the double helix is not the one that stops it re-closing.",
+q1:["Which enzyme unwinds the double helix at the fork?",["Helicase (DnaB)","Primase","DNA polymerase III","DNA ligase","Topoisomerase","SSBP"]],
+q2:["What do single-strand binding proteins do?",["Prevent reannealing and protect from nucleases","Break hydrogen bonds","Make RNA primers","Seal nicks","Relieve supercoiling"]],
+f:"Replication starts at oriC (single in E. coli, multiple origins in eukaryotes). DnaA melts the origin, helicase unwinds (ATP), SSBPs keep strands apart, topoisomerases relieve supercoils. Replication is semiconservative and bidirectional."},
+{n:"Sample 2: lagging strand",c:"On one strand the new DNA is made in short pieces with gaps between them.",
+o:[["Fragments","Short Okazaki fragments, each starting with its own primer."],
+["Primer","Short RNA primer (about 10 nt) made by primase gives a free 3'-OH."],
+["Extension","Nucleotides added 5' to 3' from the primer."],
+["Primer removal","RNA primers removed and replaced with DNA."],
+["Nicks","Gaps remain between the finished fragments."],
+["Leading strand","Made continuously with one primer."]],
+h:"Three enzymes in order: extend, replace primer, seal. Match each.",
+q1:["Which enzyme seals the nicks between Okazaki fragments?",["DNA ligase","DNA polymerase III","DNA polymerase I","Primase","Helicase","Topoisomerase"]],
+q2:["Which enzyme removes RNA primers and replaces them with DNA?",["DNA polymerase I","DNA polymerase III","DNA ligase","Primase","Helicase"]],
+f:"Pol III extends 5' to 3'. Primase makes primers (lagging strand needs many). Pol I removes primers (5' to 3' exonuclease) and fills with DNA. Ligase forms the final phosphodiester bond."},
+{n:"Sample 3: tumour cells",c:"A cancer cell line divides indefinitely. A normal cell from the same patient stops after a number of divisions.",
+o:[["Chromosome ends","Repeat sequences at the ends of linear chromosomes."],
+["Repeat","In humans the repeat is TTAGGG, extending several kilobases."],
+["Normal ageing cell","Shortening of the ends with each division."],
+["Tumour cell","An enzyme that adds repeats is reactivated."],
+["Enzyme components","TERT protein plus the RNA template TERC."],
+["Normal activity","Active in germ cells, stem cells and cancer cells."]],
+h:"The ends are protected by a repeat sequence. Which enzyme rebuilds it?",
+q1:["Which enzyme allows indefinite division?",["Telomerase","DNA ligase","Helicase","Topoisomerase","DNA polymerase I","Primase"]],
+q2:["Which sequence is the human telomere repeat?",["5'-TTAGGG-3'","5'-CCCTAA-3'","5'-ATCGAT-3'","5'-GCGCGA-3'","5'-AATTCC-3'"]],
+f:"Telomeres: repetitive TTAGGG ends, T-loop, protect against degradation and end-to-end fusion. Shortening is linked to ageing. Telomerase (TERT + TERC) extends them and is reactivated in many cancers."},
+{n:"Sample 4: a child who burns easily",c:"Severe sunburn after minutes in the sun, dry atrophic skin, early skin cancers, and neurological decline.",
+o:[["Inheritance","Autosomal recessive."],
+["Skin biopsy","Extensive accumulation of thymine-thymine dimers."],
+["Trigger","Caused by ultraviolet radiation."],
+["Enzyme assay","Absent UV-specific endonuclease."],
+["Neurology","Progressive neurodegeneration."],
+["Blood","Normal haemoglobin."]],
+h:"The damaged base pairs are neighbours. The cut-and-patch repair system is missing its first enzyme.",
+q1:["Which disease?",["Xeroderma pigmentosum","Sickle cell anaemia","Cystic fibrosis","Huntington disease","Myotonic dystrophy","Albinism"]],
+q2:["Which repair pathway is defective?",["Nucleotide excision repair","Mismatch repair","Non-homologous end joining","Homologous recombination","Base excision of uracil"]],
+f:"UV causes covalent thymine-thymine dimers. Human repair: nucleotide excision repair (UV-specific endonuclease cuts both sides, exonuclease removes the piece, polymerase I fills, ligase seals). XP lacks the endonuclease."},
+{n:"Sample 5: replication error",c:"A G-T mismatch has slipped past proofreading. The cell must decide which strand is wrong.",
+o:[["Error","Unpaired G-T bases in the newly made strand."],
+["Marker","The parent strand carries methyl groups at GATC sites."],
+["New strand","Not yet methylated."],
+["Enzyme cut","GATC endonuclease nicks the daughter strand."],
+["Removal","Exonuclease removes the segment holding the mismatch."],
+["Finishing","Polymerase refills and ligase seals."]],
+h:"How does the cell know which strand is new?",
+q1:["Which repair mechanism?",["Mismatch repair","Nucleotide excision repair","Double-strand break repair","Uracil-DNA glycosylase repair","Telomere extension","Photoreactivation"]],
+q2:["How is the new strand identified?",["It lacks methylation compared with the parent strand","It has higher GC content","It carries a poly(A) tail","It binds histone H1","It carries telomeric repeats"]],
+f:"Mismatch repair fixes bases that escape proofreading. The parental strand is methylated at GATC; the new strand is not, so the system cuts the daughter strand, removes the error, refills and seals."},
+{n:"Sample 6: a TB patient on treatment",c:"An antibiotic stops the bacterium's RNA polymerase from starting transcription.",
+o:[["Drug target","Binds the beta subunit of prokaryotic RNA polymerase."],
+["Effect","Prevents incoming nucleotides binding at initiation."],
+["Human cells","Eukaryotic RNA polymerases use a different system."],
+["Enzyme subunits","Core enzyme: two alpha, beta, beta prime, omega. Sigma recognises promoters."],
+["Bacterial promoter","Pribnow box (TATAAT) and the -35 sequence."],
+["Other drug","A second drug binds the DNA template itself and blocks all elongation."]],
+h:"Beta subunit. First-line TB therapy.",
+q1:["Which drug?",["Rifampin","Actinomycin D","Penicillin","Streptomycin only","Aspirin","Methotrexate"]],
+q2:["Which prokaryotic subunit recognises the promoter?",["Sigma factor","Alpha subunit","Beta subunit","Beta prime subunit","Omega subunit"]],
+f:"Rifampin binds the beta subunit and blocks initiation (used in TB). Actinomycin D binds the DNA template and blocks elongation in both prokaryotes and eukaryotes. Sigma factor recognises the promoter (Pribnow box and -35)."},
+{n:"Sample 7: unstable mRNA",c:"A eukaryotic transcript is degraded quickly and is poorly exported from the nucleus.",
+o:[["5' end","Normal 7-methylguanosine cap present."],
+["3' end","No poly(A) tail added."],
+["Introns","Properly removed by the spliceosome."],
+["Polymerase","Made by RNA polymerase II."],
+["Promoter","TATA (Hogness) box about 25 bases upstream."],
+["Extra tail","Pol II normally transcribes more than 1000 nucleotides past the gene end, removed in processing."]],
+h:"Cap is at 5', splicing is internal. Which modification sits at 3'?",
+q1:["Which modification is missing?",["Polyadenylation (poly(A) tail)","5' capping","Splicing","tRNA CCA addition","rRNA methylation","Primer removal"]],
+q2:["What do cap and tail do?",["Stability and translation efficiency; tail aids export","Promoter recognition","Intron removal","Unwind DNA","Terminate transcription"]],
+f:"mRNA processing: 5' cap (7-methylguanosine), 3' poly(A) tail, splicing. They protect the RNA, aid export and translation. RNA Pol II makes mRNA, Pol I makes large rRNAs, Pol III makes tRNA and 5S rRNA."},
+{n:"Sample 8 (boss): two inherited diseases",c:"A blood smear shows sickled cells. A second patient has a brain scan with enlarged ventricles and atrophy of the basal ganglia.",
+o:[["Patient A, DNA","GAG changed to GTG in the beta-globin gene."],
+["Patient A, protein","Glutamate replaced by valine at position 6, forming HbS."],
+["Patient B, DNA","Abnormal repeats of CAG."],
+["Patient B, protein","Toxic aggregates of an extra-long protein."],
+["Reference","Three possible effects of a point mutation: silent, missense, nonsense."],
+["Reference","Other classes: frameshift and splice-site mutations."]],
+h:"A: one base swapped, one amino acid changed. B: a repeated triplet.",
+q1:["What type of mutation is sickle cell?",["Point mutation, transversion, missense","Frameshift","Nonsense","Silent","Trinucleotide repeat expansion","Splice-site mutation"]],
+q2:["What type of mutation causes Huntington disease?",["Trinucleotide (CAG) repeat expansion","Frameshift deletion","Silent point mutation","Nonsense mutation","Splice-site mutation"]],
+f:"Sickle cell: A to T (GAG to GTG), a transversion and missense, 'partially acceptable'. Huntington: CAG repeat expansion. Nonsense converts a codon to stop; silent changes nothing (degeneracy); frameshift is insertion or deletion; myotonic dystrophy is a splice-site mutation."}];
+const L=[["DNA replication","Semiconservative, bidirectional, high fidelity. Prokaryotes: single origin oriC; eukaryotes: multiple. DnaA melts origin, helicase unwinds, SSBP prevents reannealing, topoisomerase relieves supercoils, primase makes RNA primers, Pol III extends 5' to 3', Pol I removes primers, ligase seals. Leading continuous, lagging in Okazaki fragments."],
+["Telomeres","TTAGGG repeats, T-loop. Protect ends, prevent fusion. Shortening linked to ageing. Telomerase (TERT + TERC) active in germ, stem and cancer cells."],
+["DNA damage and repair","Causes: endogenous (oxidative stress, replication errors, hydrolysis) and exogenous (UV, ionising radiation, chemicals). Fates: repair, cancer, genetic disease, apoptosis, mutation. NER fixes thymine dimers (defect: xeroderma pigmentosum). UDG fixes C to U deamination. Mismatch repair uses GATC methylation. DSBs: NHEJ (quick, error-prone) or HR (accurate, S and G2)."],
+["Transcription","RNA from the template strand. Unit: promoter, coding region, termination region, enhancers. Prokaryote promoter: Pribnow box and -35; sigma recognises. Eukaryote: TATA and CAAT boxes, RNA Pol II. Termination: intrinsic hairpin or rho-dependent. Rifampin blocks beta subunit; Actinomycin D binds DNA."],
+["RNA processing","mRNA: 5' cap, poly(A) tail, splicing. tRNA: CCA added, bases modified. rRNA: 45S processed to 28S, 18S, 5.8S and 5S. Ribosomes: 80S (40S + 60S) eukaryotic, 70S (30S + 50S) prokaryotic."],
+["Genetic code and mutations","64 codons, AUG start, UAA UAG UGA stop. Degenerate, non-overlapping, commaless, unambiguous, near universal. Wobble at 3rd position. Point: silent, missense, nonsense. Frameshift, trinucleotide repeat (Huntington), splice-site (myotonic dystrophy)."]];
+return {C,L}})()},
+{n:'Integrated Cases',d:'Mixed-lecture cases: biochemistry, neuroanatomy, histology and muscle in one patient',c:['#7A3FA6','#C9A0EC'],F:[["XP: defect and link to histology?", "Absent UV-specific endonuclease (nucleotide excision repair). Melanin is the endogenous pigment that protects skin."], ["Huntington: mutation and structure?", "CAG repeat expansion; atrophy of caudate and putamen (corpus striatum); chorea."], ["Myotonic dystrophy: mutation and tissue?", "Splice-site mutation; wasting of skeletal muscle."], ["Cystic fibrosis: gene and tissue?", "CFTR (loss of Phe508), chloride channel; thick mucus on respiratory epithelium moved by cilia."], ["Telomerase and the corpus callosum?", "Telomerase (TERT + TERC) lets tumour cells divide indefinitely; splenium tumours spread to both occipital poles."], ["Capsule stroke and muscle?", "Right capsule lesion paralyses LEFT skeletal muscle (voluntary, somatic). Cardiac and smooth muscle are autonomic and spared."], ["Sickle cell and pigments?", "GAG to GTG, Glu to Val. Haemoglobin and its product hemosiderin are endogenous pigments."], ["Endogenous vs exogenous pigments?", "Endogenous: haemoglobin, hemosiderin, melanin, lipofuscin. Exogenous: dust, carotene, minerals, tattoo ink."], ["Cilium vs microvillus in disease?", "Cilia (9+2) move mucus; microvilli (actin) absorb. Thick mucus in cystic fibrosis stresses ciliary clearance."], ["Missense vs nonsense vs silent?", "Missense: one amino acid changes. Nonsense: premature stop. Silent: no change."]],...(()=>{const C=[
+{n:"Case 1: the child who burns (Biochemistry + Histology)",c:"A 5-year-old burns after minutes in the sun. Dermatology and the lab each need an answer.",
+o:[["Skin biopsy","Extensive accumulation of thymine-thymine dimers in skin cells."],
+["Enzyme assay","UV-specific endonuclease absent."],
+["Inheritance","Autosomal recessive."],
+["Neurology","Progressive neurodegeneration."],
+["Histology: brown granules","Dark brown pigment made by the body, stored in the cytoplasm of skin cells."],
+["Histology: tattoo?","No ink deposits. No history of tattooing or dust exposure."]],
+h:"The disease is a repair defect. The brown granules are a cell inclusion: decide if made inside or outside the body.",
+q1:["Which pathway is defective?",["Nucleotide excision repair","Mismatch repair","Homologous recombination","Uracil-DNA glycosylase repair","Non-homologous end joining","Telomere extension"]],
+q2:["The brown protective granules are which type of inclusion?",["Endogenous pigment (melanin)","Exogenous pigment (tattoo ink)","Crystal (Reinke)","Secretory granule","Glycogen","Lipid droplet"]],
+f:"Xeroderma pigmentosum: absent UV-specific endonuclease, so thymine dimers are not excised (nucleotide excision repair). Melanin is an endogenous pigment, a non-living inclusion without a limiting membrane. Exogenous pigments come from outside: dust, carotene, minerals, tattoo ink."},
+{n:"Case 2: the dancing movements (Biochemistry + Neuroanatomy)",c:"A 45-year-old has jerky, irregular movements and mood swings. His father had the same.",
+o:[["Gene test","Abnormal CAG triplet repeat expansion."],
+["Protein","Toxic huntingtin aggregates."],
+["MRI","Enlarged lateral ventricles and atrophy of grey masses beside them."],
+["Neurology","No paralysis. Power full."],
+["Capsule imaging","Internal capsule appears normal."],
+["Movement type","Irregular, jerky, non-repetitive."]],
+h:"The mutation class and the damaged structure both come from different lectures. Match them.",
+q1:["Which mutation class?",["Trinucleotide repeat expansion","Frameshift","Nonsense","Splice-site","Silent","Transversion missense"]],
+q2:["Which structure shows the atrophy?",["Corpus striatum (caudate and putamen)","Posterior limb of the internal capsule","Splenium","Retrolentiform part","Arcuate fasciculus","Genu of the corpus callosum"]],
+f:"Huntington disease: CAG repeat expansion, toxic huntingtin, atrophy of the basal ganglia (caudate and putamen of the corpus striatum), chorea. The internal capsule is normal and there is no paralysis."},
+{n:"Case 3: the weakening muscles (Biochemistry + Muscle)",c:"A 30-year-old has progressive wasting and weakness of voluntary muscles.",
+o:[["Gene test","Splice site mutation."],
+["RNA","Exons skipped or introns retained in the mature mRNA."],
+["Muscle type","Striated, many small peripheral nuclei."],
+["Nerve supply","Somatic motor and sensory."],
+["Cardiac check","Heart muscle structurally normal."],
+["Gut check","Smooth muscle in the bowel wall normal."]],
+h:"Which step of mRNA processing goes wrong, and which muscle type wastes?",
+q1:["Which disease and mutation?",["Myotonic dystrophy: splice-site mutation","Huntington: CAG repeat","Cystic fibrosis: deletion","Sickle cell: missense","Xeroderma pigmentosum: repair defect","Hemophilia: nonsense"]],
+q2:["Which muscle type is wasting?",["Skeletal (voluntary, somatic supply)","Cardiac (central nuclei, syncytium)","Smooth (spindle cells, autonomic)","Tendon","Aponeurosis","Conducting tissue"]],
+f:"Myotonic dystrophy: splice-site mutation (introns/exons processed wrongly) causing progressive wasting of skeletal muscle. Skeletal muscle: voluntary, striated, many peripheral nuclei, somatic supply."},
+{n:"Case 4: the sticky airway (Biochemistry + Histology)",c:"A child with repeated chest infections and malabsorption. A sweat and genetic work-up is done.",
+o:[["Gene","CFTR gene, loss of Phe508."],
+["Channel","Defective chloride channel."],
+["Mucus","Thick mucus in lungs and pancreas."],
+["Inheritance","Autosomal recessive."],
+["Airway biopsy","Free surface lined by hair-like motile projections, many per cell, 9+2 shaft."],
+["Nasal brushing","Structures beat in one direction but struggle to move the mucus film."]],
+h:"One test gives the disease, the other the structure that normally moves mucus.",
+q1:["Which disease?",["Cystic fibrosis","Huntington","Myotonic dystrophy","Sickle cell anaemia","Xeroderma pigmentosum","Hemophilia"]],
+q2:["Which structure normally propels the mucus film?",["Cilia (9+2, motile)","Microvilli (actin core)","Flagellum (single)","Terminal web","Basal body only","Rootlet only"]],
+f:"Cystic fibrosis: CFTR mutation, defective chloride channel, thick mucus, autosomal recessive. Cilia (9+2 shaft, basal body 9+0) normally move the mucus film over respiratory epithelium. Microvilli do not beat."},
+{n:"Case 5: the headache and the immortal cell (Neuroanatomy + Biochemistry)",c:"Ms. Salma has a mass in the thickest end of the corpus callosum. Biopsy cells divide without limit.",
+o:[["Sagittal MRI","Mass at the thickest, posterior end of the C-shaped commissure."],
+["Fibres","Tumour spreads to both occipital poles."],
+["Biopsy","Cells divide indefinitely in culture."],
+["Chromosome ends","Repeat sequences maintained at TTAGGG ends."],
+["Enzyme","An enzyme containing TERT and TERC is active."],
+["Normal tissue","Normal neighbouring cells stop dividing."]],
+h:"One part of the corpus callosum and one enzyme.",
+q1:["Which part of the corpus callosum?",["Splenium","Genu","Rostrum","Body","Anterior commissure","Hippocampal commissure"]],
+q2:["Which enzyme allows the unlimited division?",["Telomerase","DNA ligase","Helicase","Topoisomerase","DNA polymerase I","Primase"]],
+f:"Splenium: thickest posterior end, gives tapetum and forceps major. Telomerase (TERT + TERC) extends TTAGGG repeats and is reactivated in many cancers, allowing indefinite division."},
+{n:"Case 6: the face and the limb (Neuroanatomy + Muscle)",c:"Mr. Hamdy, 62, hypertensive, suddenly cannot move his left face, arm and leg.",
+o:[["CT","Fresh blood deep in the right hemisphere beside the lentiform nucleus."],
+["Motor","Left face, arm and leg paralysed."],
+["Sensory","All modalities lost on the left."],
+["Paralysed muscle","Red flesh, striated, many small peripheral nuclei."],
+["Nerve supply","Somatic motor and sensory."],
+["Autonomic check","Bowel peristalsis and heart rhythm unaffected."]],
+h:"The capsule fibres that carry voluntary command, and the muscle type they control.",
+q1:["Where is the lesion?",["Right internal capsule: genu and posterior limb","Right anterior limb only","Left posterior limb","Right retrolentiform part","Right corpus callosum body","Right caudate only"]],
+q2:["Which muscle type is paralysed?",["Skeletal muscle (voluntary, somatic nerves)","Cardiac muscle","Smooth muscle","Tendon","Aponeurosis","Multipennate only"]],
+f:"Right capsule lesion (genu corticobulbar + posterior limb corticospinal and sensory fibres) gives left hemiplegia including the face and hemisensory loss. Paralysed muscle is skeletal: voluntary, somatic. Heart (cardiac) and bowel (smooth) are autonomic and spared."},
+{n:"Case 7 (boss): the sickle crisis (Biochemistry + Histology)",c:"A patient with anaemia and episodes of pain. Blood and spleen slides are examined.",
+o:[["DNA","GAG changed to GTG in the beta-globin gene."],
+["Protein","Glutamate replaced by valine at position 6."],
+["Mutation words","Point mutation, one base swapped, one amino acid changed."],
+["Cell slide","Fragile red cells with haemolysis."],
+["Spleen slide","Brown-yellow iron-containing granules in macrophages after red-cell breakdown."],
+["Reference","Endogenous pigments: haemoglobin, hemosiderin, melanin, lipofuscin."]],
+h:"Name the mutation, then classify the iron-containing granules.",
+q1:["Which mutation type?",["Point mutation: transversion, missense","Frameshift","Nonsense","Silent","Trinucleotide repeat","Splice-site"]],
+q2:["The iron-storing granules are which inclusion class?",["Endogenous pigment (hemosiderin)","Exogenous pigment (dust)","Crystals (Reinke)","Glycogen","Lipid droplets","Secretory granules"]],
+f:"Sickle cell: GAG to GTG, Glu to Val, a transversion and missense, partially acceptable. Hemosiderin is an endogenous pigment from haemoglobin breakdown, a non-living inclusion with no limiting membrane."}];
+const L=[["How the lectures connect","Biochemistry explains the cause, anatomy and histology the structure. XP (repair) links to melanin (endogenous pigment). Huntington (CAG repeat) links to the corpus striatum. Myotonic dystrophy (splicing) links to skeletal muscle. CFTR links to cilia on respiratory epithelium. Telomerase links to tumours anywhere, including the splenium."],
+["Mutation to structure","Trinucleotide repeat: Huntington, basal ganglia. Splice-site: myotonic dystrophy, skeletal muscle. Missense (transversion): sickle cell, haemoglobin (endogenous pigment). Repair defect: xeroderma pigmentosum, skin."],
+["Muscle in the clinic","Capsule stroke paralyses skeletal muscle (voluntary, somatic). Heart is cardiac (central nuclei, autonomic). Bowel and vessels are smooth (autonomic)."]];
 return {C,L}})()}
 ];
 WARDS[0].L.push(["High-yield traps", "Retrolentiform = vision, sublentiform = hearing. Genu = face (corticobulbar). Hemiplegia WITH face and total sensory loss = capsule, not cord. Parkinsonism has rigidity and tremor but no paralysis. Arcuate is short, uncinate is long."]);
 WARDS[1].L.push(["High-yield traps", "Wernicke 22 is NOT primary auditory (41/42). Aqueductal stenosis = normal 4th ventricle. Brown-S\u00e9quard: motor same side, pain opposite side. Syringomyelia spares fine touch. Wallenberg spares the tongue; medial medullary hits it."]);
 WARDS[2].L.push(["High-yield traps", "Flagellum and cilium share 9+2: count and site separate them. Microvilli look striated but do not beat. Basal body is 9+0 triplets. Alpha = liver rosettes, beta = muscle singles. Reinke's crystals are NOT pigments."]);
 WARDS[3].L.push(["High-yield traps", "Skeletal is voluntary, somatic, fatigues, many peripheral nuclei; spindle shape is smooth muscle. Cardiac has CENTRAL nuclei. Bipennate = dorsal interossei; multipennate = deltoid; circumpennate = tibialis anterior. Triceps has 3 heads, digastric has 2 bellies. Brachioradialis is a synergist, not a prime mover."]);
+WARDS[4].L.push(["High-yield traps", "Pol III extends, Pol I replaces primers: do not swap them. Rifampin = beta subunit, Actinomycin D = template. Sigma recognises the promoter, beta catalyses. Nonsense = stop, silent = no change, missense = one amino acid. Mismatch repair relies on methylation; excision repair on UV endonuclease."]);
+WARDS[5].L.push(["High-yield traps", "Do not mix up mutation classes: Huntington = repeat expansion, myotonic dystrophy = splice-site, sickle cell = missense transversion. Capsule stroke affects skeletal (not cardiac or smooth) muscle. Melanin and hemosiderin are endogenous; tattoo ink and dust are exogenous."]);
 
 const A=document.getElementById('app');
 const KEY='hospital-shift-best';
@@ -382,21 +562,25 @@ const dark=()=>matchMedia('(prefers-color-scheme: dark)').matches;
 const acc=c=>document.documentElement.style.setProperty('--teal',c);
 const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const mk=q=>sh(q[1].map((t,i)=>[t,i==0]));
-const bs=(wi,i)=>best[wi+':'+i];
-const wtot=wi=>WARDS[wi].C.reduce((s,_,i)=>s+(bs(wi,i)||0),0);
+let sess={};
+const bs=(wi,i)=>wi==='mix'?sess[i]:best[wi+':'+i];
+const wtot=wi=>(wi==='mix'?C:WARDS[wi].C).reduce((s,_,i)=>s+(bs(wi,i)||0),0);
 function menu(){acc(dark()?'#4DBFB8':'#167A78');
-A.innerHTML=`<h1>Hospital Shift</h1><p class=mute>Pick a ward. Every case is a mystery: choose 4 of 6 tests, make your diagnosis, then answer the follow-up. No timer, no lives.</p>`+
+A.innerHTML=`<h1>Hospital Shift</h1><p class=mute>Pick a ward. Every case is a mystery: choose 4 of 6 tests, make your diagnosis, then answer the follow-up. No timer, no lives.</p><button class="card case ward" style="--c:#C98A1B" onclick="openMixed()"><span><b>Mixed Shift</b><br><span class=mute>Random cases from every ward, all mixed together. Replay for a new mix.</span></span><span class=tag>Mix</span></button>`+
 WARDS.map((x,wi)=>{const n=x.C.filter((_,i)=>bs(wi,i)!=null).length;return `<button class="card case ward" style="--c:${x.c[dark()?1:0]}" onclick="openWard(${wi})"><span><b>${x.n}</b><br><span class=mute>${x.d}</span></span><span class=tag>${n}/${x.C.length}</span></button>`}).join('')+
-`<p class=mute>Total reputation: <b>${WARDS.reduce((s,_,wi)=>s+wtot(wi),0)}</b></p><button class="btn ghost" onclick="if(confirm('Reset all progress?')){best={};save();menu()}">Reset progress</button><p class=mute style="text-align:center">v3: Library inside every ward</p>`}
+`<p class=mute>Total reputation: <b>${WARDS.reduce((s,_,wi)=>s+wtot(wi),0)}</b></p><button class="btn ghost" onclick="if(confirm('Reset all progress?')){best={};save();menu()}">Reset progress</button><p class=mute style="text-align:center">v4: Mixed Shift added</p>`}
+function openMixed(){acc(dark()?'#E8B04A':'#C98A1B');sess={};w='mix';
+let pool=[];WARDS.forEach(x=>{sh(x.C).slice(0,2).forEach(c=>pool.push({...c,n:c.n+' ('+x.n+')'}))});
+W={n:'Mixed Shift',C:sh(pool).slice(0,12),L:[],F:WARDS.flatMap(x=>x.F)};C=W.C;L=W.L;home()}
 function openWard(i){w=i;W=WARDS[i];C=W.C;L=W.L;acc(W.c[dark()?1:0]);home()}
 function home(){const done=C.filter((_,i)=>bs(w,i)!=null).length,tot=wtot(w);
 A.innerHTML=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="menu()">All wards</button><span class=rep>Reputation ${tot}</span></div>
-<h1>${W.n}</h1><button class=btn onclick="lib()">Library: summaries + flashcards</button><p class=mute>Or play a case: pick 4 of 6 tests, then one shot at the diagnosis and one at the follow-up.</p>`+
+<h1>${W.n}</h1><button class=btn onclick="${w==='mix'?'fc()':'lib()'}">${w==='mix'?'Mixed flashcards ('+W.F.length+')':'Library: summaries + flashcards'}</button>${w==='mix'?'<button class="btn ghost" onclick="openMixed()">New mix</button>':''}<p class=mute>Or play a case: pick 4 of 6 tests, then one shot at the diagnosis and one at the follow-up.</p>`+
 C.map((c,i)=>`<button class="card case" onclick="open_(${i})"><span><b>${c.n}</b><br><span class=mute>${c.c.slice(0,64)}...</span></span><span class=tag>${bs(w,i)!=null?bs(w,i)+'/100':'New'}</span></button>`).join('')+
 (done==C.length?`<div class=card><h2>Ward cleared: ${tot>=C.length*80?'Chief Resident':tot>=C.length*60?'Registrar':tot>=C.length*40?'Resident':'Intern, back to the library'}</h2><p class=mute>Total ${tot} of ${C.length*100}.</p></div>`:'')}
 function lib(){A.innerHTML=`<div class=bar><button class="btn ghost" style="width:auto;margin:0" onclick="home()">Back</button><span class=rep>Library: ${W.n}</span></div>
 <button class=btn onclick="fc()">Practice flashcards (${W.F.length})</button>
-<h2 style="margin-top:18px">Summaries</h2>`+L.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('')+
+${L.length?'<h2 style="margin-top:18px">Summaries</h2>':''}`+L.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('')+
 `<h2 style="margin-top:18px">All flashcards (tap to reveal)</h2>`+W.F.map(c=>`<details><summary>${c[0]}</summary><p>${c[1]}</p></details>`).join('')}
 let D,K,F_,fl;
 function fc(){D=sh(W.F.map((_,i)=>i));K=0;fl=false;showFC()}
@@ -424,7 +608,7 @@ h+=`<h2 style="margin-top:18px">${G.s==1?'Diagnosis: ':'Follow-up: '}${q[0]}</h2
 A.innerHTML=h}
 function fin(){const c=C[G.i],k1=G.o1[G.a1][1],k2=G.o2[G.a2][1],left=4-G.u.length;
 let s=(k1?40:0)+(k2?40:0)+(k1?left*5:0)-G.h*10;s=Math.max(0,s);
-if(bs(w,G.i)==null||s>bs(w,G.i)){best[w+':'+G.i]=s;save()}
+if(w==='mix'){sess[G.i]=Math.max(s,sess[G.i]||0)}else if(bs(w,G.i)==null||s>bs(w,G.i)){best[w+':'+G.i]=s;save()}
 const rv=(os,a)=>os.map((o,k)=>`<div class="opt ${o[1]?'ok':k==a?'no':''}" style="${o[1]||k==a?'':'opacity:.55'}">${o[0]}${o[1]?' &#10003;':k==a?' &#10007; your answer':''}</div>`).join('');
 const miss=c.o.map((o,k)=>G.u.includes(k)?'':`<div class=find><b>${o[0]} (not ordered)</b>${o[1]}</div>`).join('');
 A.innerHTML=`<h1>${s} / 100</h1><p class="tag ${k1&&k2?'good':'badc'}">${k1&&k2?'Case solved.':k1?'Right diagnosis, wrong follow-up.':'Missed diagnosis.'}</p>
